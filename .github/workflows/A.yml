@@ -39,6 +39,7 @@ jobs:
             [FirstAid]=276837
             [Undergarden]=379849
             [Apotheosis]=313970
+            [DivineRpg]=363543
           )
 
           for MOD_NAME in "${!MODS[@]}"; do
