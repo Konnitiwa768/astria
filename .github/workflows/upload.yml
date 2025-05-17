@@ -26,7 +26,7 @@ jobs:
         env:
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
         run: |
-          mkdir -p mods
+          mkdir -p mods2
 
           declare -A MODS=(
             [IceAndFire]=264231
@@ -47,9 +47,9 @@ jobs:
 
             # モッドのバージョン指定
             if [ "$MOD_NAME" == "DivineRpg" ]; then
-              FILE_ID="4022627"  # Lycanites Mobsのバージョン指定
+              FILE_ID="4921656"  # Lycanites Mobsのバージョン指定
             else
-              MOD_VERSION="1.16.5"
+              MOD_VERSION="1.19.2"
             fi
 
             # 特定バージョンのファイルIDを取得
@@ -74,7 +74,7 @@ jobs:
             fi
 
             echo "Downloading $MOD_NAME from $DOWNLOAD_URL"
-            curl -L -A "Mozilla/5.0" -o "mods/${MOD_NAME}.jar" "$DOWNLOAD_URL"
+            curl -L -A "Mozilla/5.0" -o "mods2/${MOD_NAME}.jar" "$DOWNLOAD_URL"
           done
 
       - name: Commit and Push Changes
