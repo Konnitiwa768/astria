@@ -1,0 +1,34 @@
+{
+  "name": "低地の技巧",
+  "type": "enchantment",
+  "enchantment": "minecraft:efficiency",
+  "weight": 100,
+  "rarity": "rare",
+  "min_level": 1,
+  "max_level": 3,
+  "conditions": [
+    {
+      "type": "apotheosis:location",
+      "predicate": {
+        "position": {
+          "y": {
+            "max": 60
+          }
+        }
+      }
+    }
+  ],
+  "modifiers": [
+    {
+      "type": "attribute",
+      "attribute": "minecraft:generic.attack_speed",
+      "operation": "add_mult",
+      "amount": {
+        "type": "apotheosis:scaled",
+        "scale": 0.01,
+        "min": 0.0,
+        "max": 0.5
+      }
+    }
+  ]
+}
