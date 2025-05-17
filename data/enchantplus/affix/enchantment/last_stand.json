@@ -1,0 +1,30 @@
+{
+  "name": "最後の一振り",
+  "type": "enchantment",
+  "enchantment": "apotheosis:last_stand",
+  "rarity": "rare",
+  "weight": 30,
+  "min_level": 1,
+  "max_level": 1,
+  "modifiers": [
+    {
+      "type": "attribute",
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "multiply_base",
+      "amount": {
+        "type": "apotheosis:constant",
+        "value": 0.5
+      },
+      "conditions": [
+        {
+          "type": "apotheosis:item_nbt",
+          "nbt": {
+            "Damage": {
+              "min": 99
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
