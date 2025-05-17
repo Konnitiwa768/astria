@@ -1,0 +1,20 @@
+{
+  "name": "Advanced Sharpness",
+  "type": "enchantment",
+  "enchantment": "apotheosis:advanced_sharpness",
+  "rarity": "rare",
+  "weight": 50,
+  "min_level": 1,
+  "max_level": 5,
+  "modifiers": [
+    {
+      "type": "attribute",
+      "attribute": "minecraft:generic.attack_damage",
+      "operation": "add",
+      "amount": {
+        "type": "apotheosis:constant",
+        "value": 1.25
+      }
+    }
+  ]
+}
