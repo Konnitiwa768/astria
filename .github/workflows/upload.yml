@@ -38,7 +38,7 @@ jobs:
             [LycanitesMobs]=224770
             [FirstAid]=276837
             [Undergarden]=379849
-            [Apotheosis]=313970
+            [DivineRpg]=363543
           )
 
           for MOD_NAME in "${!MODS[@]}"; do
@@ -46,10 +46,10 @@ jobs:
             echo "Fetching $MOD_NAME..."
 
             # モッドのバージョン指定
-            if [ "$MOD_NAME" == "Apotheosis" ]; then
-              MOD_VERSION="1.16.5"  # Lycanites Mobsのバージョン指定
+            if [ "$MOD_NAME" == "DivineRpg" ]; then
+              FILE_ID="4022627"  # Lycanites Mobsのバージョン指定
             else
-              MOD_VERSION="latest"
+              MOD_VERSION="1.16.5"
             fi
 
             # 特定バージョンのファイルIDを取得
