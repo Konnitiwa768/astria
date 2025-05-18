@@ -21,7 +21,7 @@ onEvent('entity.spawn', e => {
             .weight(10) // スポーン確率（重さ）
             .spawnCount(1) // 一度にスポーンする個体数
             .spawnConditions((condition) => {
-                condition.addCondition('minecraft:surfaces', 'minecraft:grass'); // 地面条件（例: 草の上）
+                condition.addCondition('minecraft:surfaces', 'undergarden:deepturf'); // 地面条件（例: 草の上）
             });
     });
 });
