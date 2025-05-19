@@ -1,0 +1,18 @@
+{
+  "type": "apotheosis:enchantment",
+  "name": "Totem of Revival",
+  "enchantment": {
+    "id": "apotheosis:totem_of_revival",
+    "max_level": 1,
+    "weight": 1,
+    "treasure": true,
+    "curse": false,
+    "applicable_to": ["chestplate", "helmet", "sword"],
+    "min_enchantability": {
+      "1": 40
+    },
+    "max_enchantability": {
+      "1": 80
+    }
+  }
+}
