@@ -1,8 +1,3 @@
-// ファイル: kubejs/server_scripts/system/combo_system.js
-
-// 攻撃者ごとにコンボ情報を保持
-const comboMap = new Map()
-
 EntityEvents.hurt(event => {
   const attacker = event.source.entity
   const target = event.entity
@@ -11,29 +6,30 @@ EntityEvents.hurt(event => {
 
   const uuid = attacker.uuid
   const currentTime = event.level.time
-
   const last = comboMap.get(uuid) || { time: 0, combo: 0 }
 
   if (currentTime - last.time <= 20) {
-    // 1秒以内に再攻撃 → コンボ継続
     last.combo += 1
   } else {
-    // コンボリセット
     last.combo = 1
   }
 
   last.time = currentTime
   comboMap.set(uuid, last)
 
-  // ダメージ補正
-  const multiplier = Math.pow(1.125, last.combo - 1)
+  // 連撃エンチャントの取得（最大Lv3想定）
+  const weapon = attacker.mainHandItem
+  const enchLevel = weapon?.nbt?.Enchantments?.find(e => e.id === "mymod:combo_mastery")?.lvl ?? 0
+
+  // 通常倍率をベースに、エンチャントで倍率強化（例：1.125 + 0.05 * Lv）
+  const base = 1.125 + 0.05 * enchLevel
+  const multiplier = Math.pow(base, last.combo - 1)
   event.damage *= multiplier
 
-  // 15%で麻痺付与（Lycanites Mobsのparalysis）
+  // 麻痺付与（変わらず）
   if (Math.random() < 0.15) {
-    target.addEffect("lycanitesmobs:paralysis", 60, 0) // 3秒程度
+    target.addEffect("lycanitesmobs:paralysis", 60, 0)
   }
 
-  // デバッグ表示（必要なら）
   // attacker.tell(`Combo x${last.combo}, damage x${multiplier.toFixed(2)}`)
 })
