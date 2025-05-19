@@ -2,7 +2,7 @@
   "type": "apotheosis:enchantment",
   "name": "Soul Leech",
   "enchantment": {
-    "id": "mymod:soul_leech",
+    "id": "apotheosis:soul_leech",
     "max_level": 3,
     "weight": 5,
     "treasure": false,
