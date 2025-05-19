@@ -1,0 +1,22 @@
+{
+  "type": "apotheosis:enchantment",
+  "name": "Combo Mastery",
+  "enchantment": {
+    "id": "apotheosis:combo_mastery",
+    "max_level": 3,
+    "weight": 4,
+    "treasure": false,
+    "curse": false,
+    "applicable_to": ["sword", "axe"],
+    "min_enchantability": {
+      "1": 10,
+      "2": 20,
+      "3": 30
+    },
+    "max_enchantability": {
+      "1": 25,
+      "2": 35,
+      "3": 45
+    }
+  }
+}
