@@ -47,7 +47,7 @@ jobs:
             echo "Fetching $MOD_NAME..."
 
             if [ "$MOD_NAME" == "Apotheosis" ]; then
-              FILE_ID=3936649  # Apotheosis-1.16.5-4.8.9A0.jar
+              FILE_ID=5753172  # Apotheosis-1.16.5-4.8.9A0.jar
             else
               FILE_ID=$(curl -s -H "x-api-key: $CF_API_KEY" \
                 "https://api.curseforge.com/v1/mods/${PROJECT_ID}/files" |
