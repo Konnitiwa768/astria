@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - 1.19.2
 
 jobs:
   push_mods:
