@@ -51,7 +51,7 @@ jobs:
             else
               FILE_ID=$(curl -s -H "x-api-key: $CF_API_KEY" \
                 "https://api.curseforge.com/v1/mods/${PROJECT_ID}/files" |
-                jq '.data[] | select(.gameVersions[] == "1.16.5") | .id' |
+                jq '.data[] | select(.gameVersions[] == "1.19.2") | .id' |
                 head -n 1)
             fi
 
