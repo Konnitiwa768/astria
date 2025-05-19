@@ -1,0 +1,38 @@
+{
+  "type": "apotheosis:enchantment",
+  "name": "Soul Leech",
+  "enchantment": {
+    "id": "mymod:soul_leech",
+    "max_level": 3,
+    "weight": 5,
+    "treasure": false,
+    "curse": false,
+    "applicable_to": ["sword", "axe"],
+    "min_enchantability": {
+      "1": 10,
+      "2": 20,
+      "3": 30
+    },
+    "max_enchantability": {
+      "1": 25,
+      "2": 35,
+      "3": 50
+    }
+  },
+  "effects": [
+    {
+      "type": "apotheosis:kill_effect",
+      "conditions": [],
+      "actions": [
+        {
+          "type": "apotheosis:heal",
+          "value": 1.0
+        },
+        {
+          "type": "apotheosis:repair_item",
+          "value": 3
+        }
+      ]
+    }
+  ]
+}
