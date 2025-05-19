@@ -1,0 +1,28 @@
+{
+  "type": "mob_effect",
+  "name": "juutai",
+  "color": 8355711,
+  "description": "動けなくなる。移動不能。",
+  "attributes": [
+    {
+      "attribute": "generic.movement_speed",
+      "operation": "multiply_base",
+      "amount": -1.0
+    }
+  ],
+  "levels": [
+    {
+      "level": 1,
+      "attributes": [
+        {
+          "attribute": "generic.movement_speed",
+          "operation": "multiply_base",
+          "amount": -1.0
+        }
+      ]
+    }
+  ],
+  "instant": false,
+  "ambient": false,
+  "visible": true
+}
