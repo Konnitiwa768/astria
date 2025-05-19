@@ -78,5 +78,5 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git add -A
           git commit -m "Modファイルを更新（CurseForge API経由）" || echo "変更はありません"
-          git pull --rebase origin main
-          git push origin HEAD:main
+          git pull --rebase origin 1.19.2
+          git push origin HEAD:m1.19.2
