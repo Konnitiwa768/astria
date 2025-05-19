@@ -1,0 +1,43 @@
+{
+  "type": "apotheosis:enchantment",
+  "name": "Resonance",
+  "enchantment": {
+    "id": "apotheosis:resonance",
+    "max_level": 3,
+    "weight": 2,
+    "treasure": true,
+    "curse": false,
+    "applicable_to": ["chestplate", "armor"],
+    "min_enchantability": {
+      "1": 15,
+      "2": 25,
+      "3": 35
+    },
+    "max_enchantability": {
+      "1": 30,
+      "2": 40,
+      "3": 50
+    }
+  },
+  "effects": [
+    {
+      "type": "apotheosis:damage_taken_trigger",
+      "cooldown": 60,
+      "conditions": [
+        {
+          "type": "apotheosis:consecutive_hits",
+          "hits": 2,
+          "within": 40
+        }
+      ],
+      "actions": [
+        {
+          "type": "apotheosis:grant_effect",
+          "effect": "minecraft:resistance",
+          "duration": 60,
+          "amplifier": 0
+        }
+      ]
+    }
+  ]
+}
