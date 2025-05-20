@@ -1,11 +1,12 @@
 / レシピ登録
 ServerEvents.recipes(event => {
   event.shaped('kubejs:assault_rifle', [
-    ' GI',
+    'NGI',
     'IGI'
   ], {
     I: 'minecraft:iron',
-    G: 'minecraft:gunpowder'
+    G: 'minecraft:gunpowder',
+    N: 'minecraft:netherrite_ingot'
   });
 StartupEvents.registry('item', event => {
   event.create('assault_rifle')
