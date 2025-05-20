@@ -1,135 +1,164 @@
-// ======= 設定値（理論上無限） =======
-// 経験値の計算式（例：8,24,72,...）
-const xpForLevel = n => Math.pow(3, n) * 8;
+// ==========================
+//   インフレクラフト：完全版！
+//   経験値×インフレ＝超成長！
+// ==========================
 
-// HP倍率：1,3,9,21,...倍を加算式で実装（例）
-const hpMultiplier = n => {
-  // nはレベル-1(0始まり)
-  let hp = 1;
-  let add = 2;
-  for (let i = 0; i < n; i++) {
-    hp += add;
-    add *= 2;
+// レベルアップに必要な経験値：Lv1=24, Lv2=72, Lv3=216, ... 急成長！
+const xpForLevel = level => Math.pow(3, level) * 8;
+
+// HP倍率計算：Lv1=1, Lv2=3, Lv3=6, Lv4=12... Lv10で3倍バースト！
+const hpMultiplier = level => {
+  let base = 1;
+  for (let i = 1; i <= level; i++) {
+    base += Math.pow(2, i);
+    if (i === 10) base *= 3;
   }
-  return hp;
+  return base;
 };
 
-// ======= ワールド難易度（敵生成レベル分布） =======
+// ==========================
+//     世界レベル処理：1日ごとに強くなる！
+// ==========================
 ServerEvents.tick(e => {
   const overworld = e.server.overworld();
-  const day = Math.floor(overworld.timeOfDay / 24000); // 日数
-  const level = day + 1; // Lvは1日目で1からスタート
-  e.server.persistentData.putInt('world_difficulty', level);
+  const day = Math.floor(overworld.timeOfDay / 24000);
+  e.server.persistentData.putInt('world_difficulty', day + 1);
 });
 
-// ======= インフレ切り替えトグル（初期値：有効） =======
+// ==========================
+//     プレイヤー初ログイン時処理
+// ==========================
 PlayerEvents.loggedIn(event => {
   const player = event.player;
+
+  // 初期インフレ有効化
   if (!player.persistentData.contains('inflation_active')) {
     player.persistentData.putBoolean('inflation_active', true);
-    player.tell("インフレシステムが有効になっています。");
+    player.persistentData.putInt('hp_level', 1);
+    player.persistentData.putInt('hp_xp', 0);
+    player.tell("インフレシステムが有効です！");
   }
 
-  // 「hplvアッパー」アイテムを配布（持ってなければ）
+  // hplvアッパー支給（1回限り）
   const UPPER_ITEM = Item.of('minecraft:iron_ingot', '{display:{Name:\'{"text":"hplvアッパー"}\'}}');
   if (!player.inventory.find(UPPER_ITEM)) {
     player.give(UPPER_ITEM);
   }
 });
 
-// ======= GUI呼び出し（アッパー右クリック） =======
-ItemEvents.rightClicked(event => {
-  const UPPER_ITEM = Item.of('minecraft:iron_ingot', '{display:{Name:\'{"text":"hplvアッパー"}\'}}');
-  if (event.item.equals(UPPER_ITEM)) {
-    event.player.openMenu('kubejs:hpgui');
-  }
-});
-
-// ======= インフレシステムの切り替え =======
+// ==========================
+//     hplvアッパー使用時：GUI＆トグル！
+// ==========================
 ItemEvents.rightClicked(event => {
   const player = event.player;
   const UPPER_ITEM = Item.of('minecraft:iron_ingot', '{display:{Name:\'{"text":"hplvアッパー"}\'}}');
+
   if (event.item.equals(UPPER_ITEM)) {
-    const inflationActive = player.persistentData.getBoolean('inflation_active');
-    player.persistentData.putBoolean('inflation_active', !inflationActive);
-    player.tell(inflationActive ? "インフレシステムが無効になりました。" : "インフレシステムが有効になりました。");
+    const active = player.persistentData.getBoolean('inflation_active');
+    player.persistentData.putBoolean('inflation_active', !active);
+    player.tell(active ? "インフレオフ：普通にプレイ中！" : "インフレオン：超成長モード！");
+
+    // GUIを開く（任意定義）
+    player.openMenu('kubejs:hpgui');
   }
 });
 
-// ======= 敵生成時にレベル分布に応じてHP等変化 =======
+// ==========================
+//     敵の出現：レベルに応じて強化！
+// ==========================
 EntityEvents.spawned(event => {
   const entity = event.entity;
   if (!entity.isMob() || entity.isPlayer()) return;
 
-  // ワールド難易度（敵レベル）を取得
   const worldLevel = event.level.persistentData.getInt('world_difficulty') || 1;
+  const inflationActive = event.level.persistentData.getBoolean('inflation_active') ?? true;
 
-  // インフレの有無（ワールド共通で設定可能に）
-  const inflationActive = event.level.persistentData.getBoolean('inflation_active');
-  // インフレ無設定の場合は有効扱い
-  const inflation = inflationActive === undefined ? true : inflationActive;
+  // 出現レベル決定（重み付き乱数）
+  const possibleLevels = [];
+  for (let i = 1; i <= worldLevel; i++) {
+    const weight = i === worldLevel ? 2 : Math.max(1, worldLevel - i);
+    for (let j = 0; j < weight; j++) possibleLevels.push(i);
+  }
+  const enemyLevel = possibleLevels[Math.floor(Math.random() * possibleLevels.length)];
 
-  // 敵レベル計算（例：worldLevelの1.5乗を切り捨て）
-  const enemyLevel = Math.min(2147483647, Math.floor(Math.pow(worldLevel, 1.5)));
-
-  // 元のHPを取得
+  // HP倍率補正
   const baseHealth = entity.getHealth();
+  const multiplier = inflationActive ? hpMultiplier(enemyLevel - 1) : 1;
+  const newHP = baseHealth * multiplier;
+  entity.maxHealth = newHP;
+  entity.health = newHP;
 
-  // インフレ適用HP倍率
-  const healthMultiplier = inflation ? 2 : 1;
-
-  // レベルに応じてHP増加（2のenemyLevel/10乗）
-  const adjustedHealth = baseHealth * healthMultiplier * Math.pow(2, enemyLevel / 10);
-
-  // HP設定
-  entity.maxHealth = adjustedHealth;
-  entity.health = adjustedHealth;
-
-  // 名前にレベル表示を追加
-  entity.customName = `Lv${enemyLevel} ${entity.getDisplayName().getString()}`;
-  entity.setCustomNameVisible(true);
+  // 名前にレベル表示
+  entity.customName = `Lv${enemyLevel} ${entity.displayName}`;
+  entity.customNameVisible = true;
 });
 
-// ======= 敵死亡時の経験値追加 =======
-EntityEvents.death(event => {
-  const entity = event.entity;
-  if (!entity.isMob() || entity.isPlayer()) return;
-
-  const customName = entity.customName;
-  if (!customName || !customName.startsWith('Lv')) return;
-
-  // レベル部分を抽出
-  const match = customName.match(/^Lv(\d+)/);
-  if (!match) return;
-  const level = parseInt(match[1]);
-
-  // 経験値付与量：レベルに比例しつつランダム性あり
-  const bonusXP = Math.floor(level * 1.5 + Math.random() * 4);
-
-  // 経験値をスポーン
-  entity.level.spawnExperience(entity.position(), bonusXP);
-});
-
-// ======= プレイヤーのHP・攻撃・防御力更新 =======
+// ==========================
+//     毎tick：プレイヤー能力を反映！
+// ==========================
 PlayerEvents.tick(event => {
   const player = event.player;
   const level = player.persistentData.getInt('hp_level') || 1;
-  const inflationActive = player.persistentData.getBoolean('inflation_active');
-  const inflation = inflationActive === undefined ? true : inflationActive;
+  const inflationActive = player.persistentData.getBoolean('inflation_active') ?? true;
 
-  // HP倍率計算
-  const newHP = 20 * hpMultiplier(level - 1);
-
-  // 最大HP設定（変更時のみ）
+  // HP補正適用
+  const newHP = 20 * (inflationActive ? hpMultiplier(level - 1) : 1);
   if (player.maxHealth !== newHP) player.setMaxHealth(newHP);
 
-  // 攻撃力・防御力ボーナス計算
-  // 攻撃力は1.5の累乗、防御力は1.3の累乗
-  // インフレ有効なら2倍
-  const atkBonus = Math.floor(Math.pow(1.5, level)) * (inflation ? 2 : 1);
-  const defBonus = Math.floor(Math.pow(1.3, level)) * (inflation ? 2 : 1);
-
-  // 永続データに保存（他の処理で参照可能）
+  // 攻撃力＆防御力補正
+  const atkBonus = Math.floor(Math.pow(1.5, level)) * (inflationActive ? 2 : 1);
+  const defBonus = Math.floor(Math.pow(1.3, level)) * (inflationActive ? 2 : 1);
   player.persistentData.putInt("atk_bonus", atkBonus);
   player.persistentData.putInt("def_bonus", defBonus);
+
+  const applyModifier = (attr, uuid, name, value, op) => {
+    if (player.getAttribute(attr).getModifier(uuid)) {
+      player.getAttribute(attr).removeModifier(uuid);
+    }
+    player.getAttribute(attr).addPermanentModifier({
+      id: uuid,
+      name: name,
+      amount: value,
+      operation: op // 0: 加算
+    });
+  };
+
+  applyModifier('generic.attack_damage', '75563e47-bc8a-4aa9-a579-b08836178e08', 'atk_boost', atkBonus, 0);
+  applyModifier('generic.armor', 'd333f1f2-fbde-491c-975a-9b8c757a8291', 'def_boost', defBonus, 0);
+});
+
+// ==========================
+//     敵撃破時：経験値加算＆レベルアップ！
+// ==========================
+EntityEvents.death(event => {
+  const entity = event.entity;
+  const source = event.source;
+  if (!entity.isMob() || entity.isPlayer()) return;
+  if (!source || !source.entity || !source.entity.isPlayer()) return;
+
+  const player = source.entity;
+  const name = entity.customName;
+  if (!name || !name.startsWith("Lv")) return;
+
+  const match = name.match(/^Lv(\d+)/);
+  if (!match) return;
+
+  const mobLevel = parseInt(match[1]);
+  const gainXp = mobLevel * 10; // 敵のレベル×10 の経験値獲得！
+
+  let xp = player.persistentData.getInt('hp_xp') || 0;
+  let level = player.persistentData.getInt('hp_level') || 1;
+
+  xp += gainXp;
+  player.tell(`経験値 +${gainXp}（合計 ${xp}）`);
+
+  // レベルアップ処理！
+  while (xp >= xpForLevel(level)) {
+    xp -= xpForLevel(level);
+    level += 1;
+    player.tell(`レベルアップ！現在のLvは ${level}！`);
+  }
+
+  player.persistentData.putInt('hp_xp', xp);
+  player.persistentData.putInt('hp_level', level);
 });
