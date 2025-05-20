@@ -43,5 +43,5 @@ jobs:
           git add resourcepack/assets/armors/textures/model/armor/poseidite_armor_1.png \
                   resourcepack/assets/armors/textures/model/armor/poseidite_armor_2.png
           git commit -m "Generate Leafeau textures from Zephyr base" || echo "No changes to commit"
-          git pull --rebase origin main || echo "Pull failed (likely due to conflicts or clean state)"
-          git push origin HEAD:main
+          git pull --rebase origin m1.19.2 || echo "Pull failed (likely due to conflicts or clean state)"
+          git push origin HEAD:m1.19.2
