@@ -8,7 +8,7 @@ StartupEvents.registry('entity_type', event => {
     .updateInterval(3)
     .clientTrackingRange(10)
     .dimensions(['undergarden:undergarden'])
-    .spawn((level, x, y, z) => level.createEntity('kubejs:starfish').setPosition(x, y, z))
+    .spawn((level, x, y, z) => level.createEntity('custom:starfish').setPosition(x, y, z))
 
   event.create('underrupter')
     .category('monster')
@@ -16,7 +16,7 @@ StartupEvents.registry('entity_type', event => {
     .updateInterval(2)
     .clientTrackingRange(10)
     .dimensions(['undergarden:undergarden'])
-    .spawn((level, x, y, z) => level.createEntity('kubejs:underrupter').setPosition(x, y, z))
+    .spawn((level, x, y, z) => level.createEntity('custom:underrupter').setPosition(x, y, z))
 })
 
 // === 2. ステータス & AI設定 ===
@@ -24,7 +24,7 @@ EntityEvents.spawned(event => {
   const entity = event.entity
   const type = entity.type
 
-  if (type == 'kubejs:starfish') {
+  if (type == 'custom:starfish') {
     entity.maxHealth = 40
     entity.health = 40
     entity.attackDamage = 5.5
@@ -38,7 +38,7 @@ EntityEvents.spawned(event => {
     entity.addTargetGoal(1, 'nearest_attackable_target', { entityType: 'minecraft:player' })
   }
 
-  if (type == 'kubejs:underrupter') {
+  if (type == 'custom:underrupter') {
     entity.maxHealth = 30
     entity.health = 30
     entity.attackDamage = 4.5
@@ -55,21 +55,21 @@ EntityEvents.spawned(event => {
 
 // === 3. 特殊効果（アンダーラプターの毒攻撃） ===
 MobEvents.attack(event => {
-  if (event.source.entity?.type == 'kubejs:underrupter') {
+  if (event.source.entity?.type == 'custom:underrupter') {
     event.entity.addEffect('minecraft:poison', 100, 2)
   }
 })
 
 // === 4. スポーンルール ===
 SpawnEvents.addSpawn(spawn => {
-  spawn.entity('kubejs:starfish')
+  spawn.entity('custom:starfish')
   spawn.biomes(['undergarden:smog_sea', 'undergarden:depths']) // 適宜変更
   spawn.chance(10)
   spawn.minCount(1).maxCount(1)
 })
 
 SpawnEvents.addSpawn(spawn => {
-  spawn.entity('kubejs:underrupter')
+  spawn.entity('custom:underrupter')
   spawn.biomes('#undergarden:is_undergarden')
   spawn.chance(10)
   spawn.minCount(1).maxCount(2)
@@ -77,11 +77,11 @@ SpawnEvents.addSpawn(spawn => {
 
 // === 5. ドロップテーブル設定 ===
 LootJS.modifiers(event => {
-  event.addEntityLoot('kubejs:starfish', table => {
+  event.addEntityLoot('custom:starfish', table => {
     table.addItem('undergarden:utherium_shard').chance(1.0)
   })
 
-  event.addEntityLoot('kubejs:underrupter', table => {
+  event.addEntityLoot('custom:underrupter', table => {
     table.addItem('undergarden:utherium_shard').chance(0.25)
   })
 })
