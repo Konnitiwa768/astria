@@ -205,3 +205,21 @@ PlayerEvents.tick(event => {
   applyModifier('generic.attack_damage', '75563e47-bc8a-4aa9-a579-b08836178e08', 'atk_boost', atkBonus, 0);
   applyModifier('generic.armor', 'd333f1f2-fbde-491c-975a-9b8c757a8291', 'def_boost', defBonus, 0);
 });
+EntityEvents.death(event => {
+  const entity = event.entity;
+  if (!entity.isMob() || entity.isPlayer()) return;
+
+  const levelString = entity.customName;
+  if (!levelString || !levelString.startsWith('Lv')) return;
+
+  // 名前からレベルを抽出
+  const match = levelString.match(/^Lv(\d+)/);
+  if (!match) return;
+  const level = parseInt(match[1]);
+
+  // 経験値追加（基本: レベルの1.5倍 + ランダム）
+  const bonusXP = Math.floor(level * 1.5 + Math.random() * 4);
+
+  // 経験値オーブを生成
+  entity.level.spawnExperience(entity.position(), bonusXP);
+});
