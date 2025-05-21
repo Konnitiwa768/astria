@@ -1,7 +1,7 @@
 {
   "name": "最後の一振り",
   "type": "enchantment",
-  "enchantment": "apotheosis:last_stand",
+  "enchantment": "enchantplus:last_stand",
   "rarity": "rare",
   "weight": 30,
   "min_level": 1,
