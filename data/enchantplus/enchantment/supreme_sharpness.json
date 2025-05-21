@@ -1,7 +1,7 @@
 {
   "name": "Supreme Sharpness",
   "type": "enchantment",
-  "enchantment": "apotheosis:supreme_sharpness",
+  "enchantment": "enchantplus:supreme_sharpness",
   "rarity": "very_rare",
   "weight": 20,
   "min_level": 1,
