@@ -1,7 +1,7 @@
 {
   "name": "Advanced Sharpness",
   "type": "enchantment",
-  "enchantment": "apotheosis:advanced_sharpness",
+  "enchantment": "enchantplus:advanced_sharpness",
   "rarity": "rare",
   "weight": 50,
   "min_level": 1,
