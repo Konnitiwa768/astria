@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:effect",
+  "name": "bleeding",
+  "duration": 100,
+  "amplifier": 0,
+  "color": 0x990000,
+  "effects": [
+    {
+      "type": "damage_over_time",
+      "interval": 20,
+      "damage": 1.0
+    },
+    {
+      "type": "movement_speed_modifier",
+      "modifier": -0.2
+    }
+  ]
+}
