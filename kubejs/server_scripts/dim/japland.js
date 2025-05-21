@@ -136,3 +136,38 @@ onEvent('villager.trades', event => {
     trade.maxUses = 1;
   });
 });
+// Neonina モブ登録
+onEvent('entity.registry', event => {
+  event.create('neonina')
+    .displayName('Neonina')
+    .egg(0xff44ff, 0x222222) // 鮮やかなピンクと黒
+    .type('monster')
+    .health(68)
+    .speed(1.0)
+    .damage(6)
+    .flying() // 飛行可能
+    .trackingRange(48)
+    .updateInterval(2)
+    .hitbox(0.6, 1.8)
+    .ai(ai => {
+      ai.attackPlayers();         // プレイヤーを攻撃
+      ai.randomFlying();          // 空中をランダムに移動
+      ai.randomLookAround();      // ランダムな視線
+    });
+});
+
+// 攻撃時に「衰退II（4秒）」を付与
+onEvent('entity.hurt', event => {
+  if (event.source.entity?.type == 'kubejs:neonina' && event.entity.isLiving()) {
+    event.entity.potionEffects.add('minecraft:withering', 80, 1); // 80tick = 4秒, Lv2
+  }
+});
+
+// Neonina のドロップ設定
+onEvent('entity.death', event => {
+  if (event.entity.type == 'kubejs:neonina') {
+    if (!event.entity.level.isClientSide()) {
+      event.entity.level.server.runCommandSilent(`loot spawn ${event.entity.x} ${event.entity.y} ${event.entity.z} loot kubejs:entities/neonina`);
+    }
+  }
+});
