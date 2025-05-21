@@ -2,7 +2,7 @@
   "type": "apotheosis:enchantment",
   "name": "Resonance",
   "enchantment": {
-    "id": "apotheosis:resonance",
+    "id": "enchantplus:resonance",
     "max_level": 3,
     "weight": 2,
     "treasure": true,
