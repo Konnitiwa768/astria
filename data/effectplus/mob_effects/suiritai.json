@@ -1,19 +1,41 @@
 {
-  "description": "Debuff that reduces max health by level",
-  "effects": [
+  "type": "mob_effect",
+  "name": "suiritai",
+  "color": 255,
+  "description": "最大HPが減少する。",
+  "levels": [
     {
-      "type": "minecraft:attribute",
-      "attribute": "generic.max_health",
-      "modifier": {
-        "name": "Suiritai Max Health Reduction",
-        "amount": -1.0,
-        "operation": "addition",
-        "id": "386d29a4-87a8-45e6-9dd1-ba2dfe71c4f2"
-      }
+      "level": 1,
+      "attributes": [
+        {
+          "attribute": "generic.max_health",
+          "operation": "multiply_base",
+          "amount": -0.1
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "attributes": [
+        {
+          "attribute": "generic.max_health",
+          "operation": "multiply_base",
+          "amount": -0.2
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "attributes": [
+        {
+          "attribute": "generic.max_health",
+          "operation": "multiply_base",
+          "amount": -0.3
+        }
+      ]
     }
   ],
-  "color": 8355711,
   "instant": false,
-  "show_particles": true,
-  "show_icon": true
+  "ambient": false,
+  "visible": true
 }
