@@ -58,7 +58,7 @@ StartupEvents.registry('item', event => {
     .displayName('Spawn Egg of Leopard Starfish')
     .texture('minecraft:item/spawn_egg')
     .properties(p => {
-      p["entity"] = "kubejs:leopard_starfish"
+      p["entity"] = "custom:leopard_starfish"
       p["primaryColor"] = 0xc2b280 // ベージュ系
       p["secondaryColor"] = 0x5c3317 // 茶系
     })
