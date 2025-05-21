@@ -34,7 +34,7 @@ LootJS.modifiers(event => {
   event.addEntityLoot('custom:undertheic_beast', table => {
     table.addItem('minecraft:diamond').chance(0.2)
     table.addItem('minecraft:gold_ingot').chance(0.5)
-    table.addItem('undergarden:utherium_shard').chance(0.8)
+    table.addItem('undergarden:utherium_shard').chance(0.8).count([1, 4])
   })
 })
 
