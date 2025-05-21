@@ -2,7 +2,7 @@
   "type": "apotheosis:enchantment",
   "name": "Combo Mastery",
   "enchantment": {
-    "id": "apotheosis:combo_mastery",
+    "id": "enchantplus:combo_mastery",
     "max_level": 3,
     "weight": 4,
     "treasure": false,
