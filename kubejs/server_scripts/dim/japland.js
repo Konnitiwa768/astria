@@ -15,7 +15,7 @@ onEvent('server.datapack.high_priority', event => {
   });
 });
 
-// 地形・構造物・木
+// 地形・構造物・木の追加
 onEvent('worldgen.add', event => {
   if (event.dimension !== 'kubejs:japland') return;
 
@@ -28,18 +28,36 @@ onEvent('worldgen.add', event => {
   event.addStructure('minecraft:mineshaft');
 });
 
-// Japone村人のスポーン処理
+// Japoneモブ登録（独自モブ）
+onEvent('entity.registry', event => {
+  event.create('japone')
+    .displayName('Japone')
+    .egg((0xeeeeee), (0x111133))
+    .type('mob')
+    .health(20)
+    .speed(0.5)
+    .damage(2)
+    .trackingRange(32)
+    .updateInterval(2)
+    .hitbox(0.6, 1.8)
+    .ai(ai => {
+      ai.basicAttack();
+      ai.avoid('minecraft:zombie', 6.0, 1.0, 1.2);
+      ai.lookAtPlayer(8.0);
+      ai.randomStroll();
+      ai.randomLookAround();
+    });
+});
+
+// Japoneの取引
 onEvent('entity.spawned', event => {
-  if (event.entity.type == 'minecraft:villager' && event.entity.dimension == 'kubejs:japland') {
-    event.entity.customName = '{"text":"Japone"}';
+  if (event.entity.type == 'kubejs:japone') {
     event.entity.persistent = true;
-    event.entity.tags.add('japone');
   }
 });
 
-// Japone村人の取引
 onEvent('villager.trades', event => {
-  if (!event.entity.tags.contains('japone')) return;
+  if (event.entity.type != 'kubejs:japone') return;
 
   event.trades.add(1, trade => {
     trade.inputItem('minecraft:emerald', 1);
