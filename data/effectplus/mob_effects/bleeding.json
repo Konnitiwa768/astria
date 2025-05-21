@@ -3,7 +3,7 @@
   "name": "bleeding",
   "duration": 100,
   "amplifier": 0,
-  "color": 0x990000,
+  "color": 0x990000
   "effects": [
     {
       "type": "damage_over_time",
