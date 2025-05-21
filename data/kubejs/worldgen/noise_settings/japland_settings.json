@@ -1,0 +1,30 @@
+{
+  "noise": {
+    "min_y": 0,
+    "height": 256,
+    "density_factor": 1.0,
+    "density_offset": -0.46875,
+    "simplex_surface_noise": true,
+    "random_density_offset": true,
+    "island_noise_override": false,
+    "amplified": false
+  },
+  "default_block": {
+    "Name": "minecraft:calcite"
+  },
+  "default_fluid": {
+    "Name": "minecraft:water"
+  },
+  "bedrock_roof_position": -10,
+  "bedrock_floor_position": 0,
+  "sea_level": 63,
+  "disable_mob_generation": false,
+  "aquifers_enabled": true,
+  "ore_veins_enabled": true,
+  "noise_caves_enabled": true,
+  "surface_rule": "minecraft:overworld",
+  "spawn_target": {
+    "block": "minecraft:calcite",
+    "fluid": "minecraft:water"
+  }
+}
