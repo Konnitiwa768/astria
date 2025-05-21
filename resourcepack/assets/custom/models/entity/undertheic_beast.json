@@ -1,9 +1,9 @@
 {
   "format_version": "1.0",
   "model": {
-    "texture": "kubejs:entity/undertheic_beast",
+    "texture": "custom:entity/undertheic_beast",
     "description": {
-      "identifier": "kubejs:undertheic_beast",
+      "identifier": "custom:undertheic_beast",
       "visible_bounds_width": 1.5,
       "visible_bounds_height": 1.8
     },
