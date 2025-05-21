@@ -1,0 +1,15 @@
+{
+  "type": "apotheosis:enchantment",
+  "name": "Severance",
+  "rarity": "rare",
+  "max_level": 3,
+  "applicable_to": ["sword", "axe"],
+  "description": "Strikes deal bonus durability damage to enemy armor.",
+  "effects": [
+    {
+      "type": "durability_damage",
+      "amount": 5,
+      "per_level": true
+    }
+  ]
+}
