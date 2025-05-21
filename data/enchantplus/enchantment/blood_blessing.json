@@ -1,0 +1,22 @@
+{
+  "name": "blood_blessing",
+  "display": "Blessing of Blood",
+  "enchantment": "blood_blessing",
+  "max_level": 20,
+  "rarity": "epic",
+  "category": "weapon",
+  "targets": ["sword", "axe"],
+  "effect": "on_kill",
+  "modifiers": [
+    {
+      "type": "heal",
+      "amount_per_level": 1
+    },
+    {
+      "type": "potion_effect",
+      "potion": "minecraft:regeneration",
+      "duration_formula": "5 + level",
+      "amplifier_formula": "floor((level - 1) / 2)"
+    }
+  ]
+}
