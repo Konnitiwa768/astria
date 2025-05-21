@@ -1,29 +1,28 @@
 {
-  "description": "Debuff: slows movement and disables jumping",
-  "effects": [
+  "type": "mob_effect",
+  "name": "juutai",
+  "color": 8355711,
+  "description": "動けなくなる。移動不能。",
+  "attributes": [
     {
-      "type": "minecraft:attribute",
       "attribute": "generic.movement_speed",
-      "modifier": {
-        "name": "Juutai Slowness",
-        "amount": -0.5,
-        "operation": "multiplication",
-        "id": "6cc452eb-6b4c-4d03-adec-745926c24bd5"
-      }
-    },
-    {
-      "type": "minecraft:attribute",
-      "attribute": "generic.jump_strength",
-      "modifier": {
-        "name": "Juutai Jump Disable",
-        "amount": -1.0,
-        "operation": "addition",
-        "id": "ade7f770-664e-4315-b9d2-51228187cee9"
-      }
+      "operation": "multiply_base",
+      "amount": -1.0
     }
   ],
-  "color": 26317,
+  "levels": [
+    {
+      "level": 1,
+      "attributes": [
+        {
+          "attribute": "generic.movement_speed",
+          "operation": "multiply_base",
+          "amount": -1.0
+        }
+      ]
+    }
+  ],
   "instant": false,
-  "show_particles": true,
-  "show_icon": true
+  "ambient": false,
+  "visible": true
 }
