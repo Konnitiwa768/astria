@@ -1,7 +1,7 @@
 {
   "name": "低地の技巧",
   "type": "enchantment",
-  "enchantment": "minecraft:efficiency",
+  "enchantment": "enchantplus:efficiency",
   "weight": 100,
   "rarity": "rare",
   "min_level": 1,
