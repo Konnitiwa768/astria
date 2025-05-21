@@ -1,0 +1,17 @@
+{
+  "type": "apotheosis:enchantment",
+  "name": "Bloodletting",
+  "rarity": "uncommon",
+  "max_level": 3,
+  "applicable_to": ["sword", "axe", "bow"],
+  "description": "Applies a bleeding effect on hit, dealing damage over time and slowing enemies.",
+  "effects": [
+    {
+      "type": "potion_application",
+      "effect": "effectplus:bleeding",
+      "duration": 100,
+      "amplifier": 0,
+      "per_level": true
+    }
+  ]
+}
