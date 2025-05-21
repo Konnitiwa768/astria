@@ -59,6 +59,7 @@ onEvent('entity.spawned', event => {
 onEvent('villager.trades', event => {
   if (event.entity.type != 'kubejs:japone') return;
 
+  // レベル 1 - 基本食料
   event.trades.add(1, trade => {
     trade.inputItem('minecraft:emerald', 1);
     trade.outputItem('farmersdelight:cabbage', 2);
@@ -67,8 +68,71 @@ onEvent('villager.trades', event => {
     trade.priceMultiplier = 0.05;
   });
 
+  event.trades.add(1, trade => {
+    trade.inputItem('minecraft:carrot', 6);
+    trade.outputItem('minecraft:emerald', 1);
+    trade.maxUses = 16;
+    trade.xp = 1;
+  });
+
+  // レベル 2 - Create系素材と道具
   event.trades.add(2, trade => {
     trade.inputItem('minecraft:emerald', 4);
     trade.outputItem('minecraft:iron_ingot', 3);
+  });
+
+  event.trades.add(2, trade => {
+    trade.inputItem('minecraft:emerald', 2);
+    trade.outputItem('create:andesite_alloy', 4);
+  });
+
+  event.trades.add(2, trade => {
+    trade.inputItem('minecraft:emerald', 3);
+    trade.outputItem('minecraft:shield', 1);
+    trade.maxUses = 5;
+    trade.xp = 3;
+  });
+
+  // レベル 3 - 食料とツール
+  event.trades.add(3, trade => {
+    trade.inputItem('minecraft:emerald', 2);
+    trade.outputItem('farmersdelight:stuffed_pumpkin', 1);
+    trade.maxUses = 6;
+    trade.xp = 4;
+  });
+
+  event.trades.add(3, trade => {
+    trade.inputItem('minecraft:emerald', 6);
+    trade.outputItem('minecraft:diamond_hoe', 1);
+    trade.maxUses = 3;
+    trade.xp = 5;
+  });
+
+  // レベル 4 - エンチャ本と鉱石
+  event.trades.add(4, trade => {
+    trade.inputItem('minecraft:emerald', 10);
+    trade.outputItem('minecraft:enchanted_book', 1)
+      .nbt('{StoredEnchantments:[{id:"minecraft:unbreaking",lvl:2}]}');
+    trade.maxUses = 2;
+    trade.xp = 10;
+  });
+
+  event.trades.add(4, trade => {
+    trade.inputItem('minecraft:gold_ingot', 4);
+    trade.outputItem('minecraft:emerald', 2);
+    trade.maxUses = 6;
+  });
+
+  // レベル 5 - 高級品
+  event.trades.add(5, trade => {
+    trade.inputItem('minecraft:netherite_scrap', 1);
+    trade.outputItem('minecraft:emerald', 5);
+    trade.maxUses = 4;
+  });
+
+  event.trades.add(5, trade => {
+    trade.inputItem('minecraft:emerald', 20);
+    trade.outputItem('minecraft:totem_of_undying', 1);
+    trade.maxUses = 1;
   });
 });
