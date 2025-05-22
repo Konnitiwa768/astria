@@ -1,0 +1,25 @@
+// KubeJS用：エデンのグレートアックスのクラフトレシピ追加と効果設定
+ServerEvents.recipes(event => {
+  event.shaped('divinerpg:eden_greataxe', [
+    'EEE',
+    'ESE',
+    ' S '
+  ], {
+    E: 'divinerpg:eden_chunk',
+    S: 'minecraft:stick'
+  })
+})
+  
+ItemEvents.modification(event => {
+  event.modify('divinerpg:eden_greataxe', item => {
+    item.attackDamage = 33
+    item.attackSpeed = -3.4 // = 4 - 0.6 (Minecraft仕様)
+  })
+})
+
+EntityEvents.hurt(event => {
+  const { source, entity } = event
+  if (source.player && source.player.mainHandItem.id === 'divinerpg:eden_greataxe') {
+    entity.potionEffects.add('effectplus:bleeding', 100, 0) // 5秒間（20t/s * 5）、Lv1の出血
+  }
+})
