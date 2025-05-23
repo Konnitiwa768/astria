@@ -1,0 +1,32 @@
+{
+  "type": "apotheosis:attribute",
+  "name": "Advanced Damage Reduction",
+  "description": "Grants advanced damage resistance.",
+  "min_lv": 1
+  "min_lv": 4
+  "weight": 15,
+  "rarity": "mythic",
+  "applicable": {
+    "types": [
+      "armor"
+    ]
+  },
+  "attributes": [
+    {
+      "name": "generic.armor",
+      "operation": "addition",
+      "values": {
+        "min": 2.0,
+        "max": 3.0
+      }
+    },
+    {
+      "name": "generic.armor_toughness",
+      "operation": "addition",
+      "values": {
+        "min": 1.0,
+        "max": 1.5
+      }
+    }
+  ]
+}
