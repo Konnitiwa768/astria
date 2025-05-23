@@ -1,0 +1,28 @@
+{
+  "type": "apotheosis:enchantment",
+  "enchantment": "enchantplus:focus_mind",
+  "weight": 5,
+  "min_level": 1,
+  "max_level": 3,
+  "treasure": false,
+  "curse": false,
+  "discoverable": true,
+  "tradeable": true,
+  "max_rarity": "rare",
+  "applicable_to": [
+    "bow",
+    "crossbow"
+  ],
+  "description": {
+    "text": "Draw speed increased by 10% per level, but repeated firing reduces accuracy."
+  },
+  "effects": [
+    {
+      "type": "apotheosis:attribute",
+      "name": "generic.attack_speed",
+      "operation": "multiply_base",
+      "amount": 0.1,
+      "per_level": true
+    }
+  ]
+}
