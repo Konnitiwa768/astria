@@ -39,7 +39,7 @@ jobs:
             [FirstAid]=276837
             [Undergarden]=379849
             [DivineRpg]=363543
-            [JED]=254317
+            [Core]=311054
           )
 
           for MOD_NAME in "${!MODS[@]}"; do
@@ -50,7 +50,7 @@ jobs:
             if [ "$MOD_NAME" == "DivineRpg" ]; then
               FILE_ID="4921656"  # Lycanites Mobsのバージョン指定
             else
-              MOD_VERSION="1.19.2"
+              MOD_VERSION="1.16.5"
             fi
 
             # 特定バージョンのファイルIDを取得
