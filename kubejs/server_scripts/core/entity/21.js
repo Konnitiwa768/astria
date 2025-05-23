@@ -6,6 +6,8 @@ EntityEvents.spawned(event => {
     mob.maxHealth = 192;
     mob.health = 192;
     mob.getAttribute("minecraft:generic.attack_damage").baseValue = 22;
+    mob.getAttribute("minecraft:generic.armor").baseValue = 8;
+  }
   }
 
   if (mob.type == 'aoa3:arcworm') {
@@ -36,7 +38,7 @@ EntityEvents.spawned(event => {
   if (mob.type == 'aoa3:omnilight') {
     mob.maxHealth = 174;
     mob.health = 174;
-
+    mob.getAttribute("minecraft:generic.armor").baseValue = 5
     // 遠距離攻撃はprojectileに依存するので、簡易的には攻撃力属性を変更
     mob.getAttribute("minecraft:generic.attack_damage").baseValue = 20;
 
