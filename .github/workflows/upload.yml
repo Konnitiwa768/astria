@@ -26,7 +26,7 @@ jobs:
         env:
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
         run: |
-          mkdir -p mods2
+          mkdir -p mods
 
           declare -A MODS=(
             [IceAndFire]=264231
@@ -75,8 +75,9 @@ jobs:
             fi
 
             echo "Downloading $MOD_NAME from $DOWNLOAD_URL"
-            curl -L -A "Mozilla/5.0" -o "mods2/${MOD_NAME}.jar" "$DOWNLOAD_URL"
+            curl -L -A "Mozilla/5.0" -o "mods/${MOD_NAME}.jar" "$DOWNLOAD_URL"
           done
+            git lfs track "mods/Core.jar"
 
       - name: Commit and Push Changes
         run: |
