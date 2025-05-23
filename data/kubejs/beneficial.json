@@ -1,0 +1,12 @@
+{
+  "type": "beneficial",
+  "id": "kubejs:reflective",
+  "name": {
+    "text": "Reflective",
+    "color": "aqua"
+  },
+  "icon": "kubejs:textures/mob_effect/beneficial.png",
+  "effect": {
+    "curative_items": ["minecraft:milk_bucket"]
+  }
+}
