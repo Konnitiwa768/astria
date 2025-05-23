@@ -1,0 +1,32 @@
+{
+  "type": "apotheosis:attribute",
+  "name": "Supreme Damage Reduction",
+  "description": "Grants supreme damage resistance.",
+  "weight": 5,
+  "min_level": 1
+  "max_level": 4
+  "rarity": "mythic",
+  "applicable": {
+    "types": [
+      "armor"
+    ]
+  },
+  "attributes": [
+    {
+      "name": "generic.armor",
+      "operation": "addition",
+      "values": {
+        "min": 4.0,
+        "max": 6.0
+      }
+    },
+    {
+      "name": "generic.armor_toughness",
+      "operation": "addition",
+      "values": {
+        "min": 2.0,
+        "max": 3.0
+      }
+    }
+  ]
+}
