@@ -13,7 +13,7 @@ onEvent('recipes', event => {
 // アイテム登録
 onEvent('item.registry', event => {
   event.create('assault_rifle')
-    .displayName('Assault Rifle')
+    .displayName('突击步枪')
     .maxStackSize(1)
     .maxDamage(40)
     .group('combat')
