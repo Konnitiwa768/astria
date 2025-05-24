@@ -4,7 +4,7 @@ onEvent('item.registry', event => {
     .type('sword')
     .attackDamageBaseline(13)
     .attackSpeedBaseline(1.6)
-    .maxDamage(1000)
+    .maxDamage(5120)
 })
 
 let comboMap = {}
