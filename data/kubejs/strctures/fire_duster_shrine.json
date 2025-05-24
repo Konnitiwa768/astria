@@ -37,7 +37,7 @@
           { "pos": [2, 1, 2], "state": { "Name": "minecraft:chest", "Properties": { "facing": "north" } }, "nbt": "{LootTable:\"kubejs:chests/fire_duster_loot\"}" },
 
           { "pos": [0, 1, 0], "state": { "Name": "minecraft:spawner" }, "nbt": "{SpawnData:{id:\"aoa3:paravite\"}}" },
-          { "pos": [0, 1, 4], "state": { "Name": "minecraft:spawner" }, "nbt": "{SpawnData:{id:\aoa3:rawbone\"}}" },
+          { "pos": [0, 1, 4], "state": { "Name": "minecraft:spawner" }, "nbt": "{SpawnData:{id:\"aoa3:rawbone\"}}" },
           { "pos": [4, 1, 0], "state": { "Name": "minecraft:spawner" }, "nbt": "{SpawnData:{id:\"minecraft:magma_cube\"}}" },
           { "pos": [4, 1, 4], "state": { "Name": "minecraft:spawner" }, "nbt": "{SpawnData:{id:\"aoa3:exohead\"}}" }
         ]
