@@ -1,0 +1,47 @@
+{
+  "structure": {
+    "size": [5, 3, 5],
+    "palette": [
+      {
+        "blocks": [
+          { "pos": [0, 0, 0], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [1, 0, 0], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [2, 0, 0], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [3, 0, 0], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [4, 0, 0], "state": { "Name": "minecraft:blackstone" } },
+
+          { "pos": [0, 0, 1], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [1, 0, 1], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [2, 0, 1], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [3, 0, 1], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [4, 0, 1], "state": { "Name": "minecraft:blackstone" } },
+
+          { "pos": [0, 0, 2], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [1, 0, 2], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [2, 0, 2], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [3, 0, 2], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [4, 0, 2], "state": { "Name": "minecraft:blackstone" } },
+
+          { "pos": [0, 0, 3], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [1, 0, 3], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [2, 0, 3], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [3, 0, 3], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [4, 0, 3], "state": { "Name": "minecraft:blackstone" } },
+
+          { "pos": [0, 0, 4], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [1, 0, 4], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [2, 0, 4], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [3, 0, 4], "state": { "Name": "minecraft:blackstone" } },
+          { "pos": [4, 0, 4], "state": { "Name": "minecraft:blackstone" } },
+
+          { "pos": [2, 1, 2], "state": { "Name": "minecraft:chest", "Properties": { "facing": "north" } }, "nbt": "{LootTable:\"kubejs:chests/fire_duster_loot\"}" },
+
+          { "pos": [0, 1, 0], "state": { "Name": "minecraft:spawner" }, "nbt": "{SpawnData:{id:\"aoa3:paravite\"}}" },
+          { "pos": [0, 1, 4], "state": { "Name": "minecraft:spawner" }, "nbt": "{SpawnData:{id:\aoa3:rawbone\"}}" },
+          { "pos": [4, 1, 0], "state": { "Name": "minecraft:spawner" }, "nbt": "{SpawnData:{id:\"minecraft:magma_cube\"}}" },
+          { "pos": [4, 1, 4], "state": { "Name": "minecraft:spawner" }, "nbt": "{SpawnData:{id:\"aoa3:exohead\"}}" }
+        ]
+      }
+    ]
+  }
+}
