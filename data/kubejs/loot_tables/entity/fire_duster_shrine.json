@@ -15,10 +15,10 @@
         { "type": "item", "name": "spartanweaponry:diamond_longsword", "functions": [{ "function": "minecraft:enchant_randomly" }] },
         { "type": "item", "name": "aoa3:emberstone_pickaxe", "functions": [{ "function": "minecraft:enchant_randomly" }] },
         { "type": "item", "name": "minecraft:netherite_pickaxe", "functions": [{ "function": "minecraft:enchant_randomly" }] },
-        { "type": "item", "name": "aoa3:baron_helmet", "functions": [{ "function": "minecraft:enchant_randomly" }] },
-        { "type": "item", "name": "aoa3:baron_chestplate", "functions": [{ "function": "minecraft:enchant_randomly" }] },
-        { "type": "item", "name": "aoa3:baron_leggings", "functions": [{ "function": "minecraft:enchant_randomly" }] },
-        { "type": "item", "name": "aoa3:baron_boots", "functions": [{ "function": "minecraft:enchant_randomly" }] }
+        { "type": "item", "name": "aoa3:exoplate_helmet", "functions": [{ "function": "minecraft:enchant_randomly" }] },
+        { "type": "item", "name": "aoa3:exoplate_chestplate", "functions": [{ "function": "minecraft:enchant_randomly" }] },
+        { "type": "item", "name": "aoa3:exoplate_leggings", "functions": [{ "function": "minecraft:enchant_randomly" }] },
+        { "type": "item", "name": "aoa3:exoplate_boots", "functions": [{ "function": "minecraft:enchant_randomly" }] }
       ]
     }
   ]
