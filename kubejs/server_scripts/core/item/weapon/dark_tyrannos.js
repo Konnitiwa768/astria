@@ -12,11 +12,6 @@ StartupEvents.registry('item', event => {
     .tooltip(['+50% damage vs Dustopia enemies']);
 
   // darkly_powderも登録（もしまだなら）
-  event.create('darkly_powder')
-    .displayName('Darkly Powder')
-    .rarity('rare')
-    .tooltip(['Material for Dark Tyrannos']);
-});
 
 ServerEvents.recipes(event => {
   // レシピ登録
@@ -27,7 +22,7 @@ ServerEvents.recipes(event => {
   ], {
     J: 'aoa3:jade',
     H: 'aoa3:harvester_sword',
-    D: 'aoa3:darkly_powder',
+    D: 'aoa3:darklity_powder',
     L: 'aoa3:lyon_ingot'
   });
 });
