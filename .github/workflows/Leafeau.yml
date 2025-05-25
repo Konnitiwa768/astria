@@ -26,8 +26,8 @@ jobs:
 
       - name: Generate Leafeau Textures
         run: |
-          convert crystal_armor_1.png -fill "#66cccc" -colorize 60% resourcepack/assets/armors/textures/model/armor/obsidite_armor_1.png
-          convert crystal_armor_2.png -fill "#66cccc" -colorize 60% resourcepack/assets/armors/textures/model/armor/obsidite_armor_2.png
+          convert crystal_armor_1.png -fill "#154646" -colorize 60% resourcepack/assets/armors/textures/model/armor/obsidite_armor_1.png
+          convert crystal_armor_2.png -fill "#154646" -colorize 60% resourcepack/assets/armors/textures/model/armor/obsidite_armor_2.png
 
       - name: Commit and Push Changes
         env:
