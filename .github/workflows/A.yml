@@ -1,4 +1,4 @@
-name: Download and Push Mods to Repo (via CurseForge API)
+name: download and Push Mods to Repo (via CurseForge API)
 
 on:
   workflow_dispatch:
