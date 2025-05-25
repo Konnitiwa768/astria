@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 1.19.2
+      - m1.19.2
 
 jobs:
   push_mods:
@@ -40,6 +40,7 @@ jobs:
             [Undergarden]=379849
             [Apotheosis]=313970
             [DivineRpg]=363543
+            [JED]=254317
           )
 
           for MOD_NAME in "${!MODS[@]}"; do
@@ -47,16 +48,16 @@ jobs:
             echo "Fetching $MOD_NAME..."
 
             if [ "$MOD_NAME" == "Apotheosis" ]; then
-              FILE_ID=5753172  # Apotheosis-1.16.5-4.8.9A0.jar
+              FILE_ID=6461960  # Apotheosis-1.16.5-4.8.9A0.jar
             else
               FILE_ID=$(curl -s -H "x-api-key: $CF_API_KEY" \
                 "https://api.curseforge.com/v1/mods/${PROJECT_ID}/files" |
-                jq '.data[] | select(.gameVersions[] == "1.19.2") | .id' |
+                jq '.data[] | select(.gameVersions[] == "1.20.1") | .id' |
                 head -n 1)
             fi
 
             if [ -z "$FILE_ID" ]; then
-              echo "No 1.16.5 file found for $MOD_NAME. Skipping..."
+              echo "No 1.20.1 file found for $MOD_NAME. Skipping..."
               continue
             fi
 
@@ -78,5 +79,5 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git add -A
           git commit -m "Modファイルを更新（CurseForge API経由）" || echo "変更はありません"
-          git pull --rebase origin 1.19.2
+          git pull --rebase origin m1.19.2
           git push origin HEAD:m1.19.2
