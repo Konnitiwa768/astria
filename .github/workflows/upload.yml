@@ -88,7 +88,7 @@ jobs:
           git commit -m "Modファイルを更新（CurseForge API経由）" || echo "変更はありません"
 
           # 変更がない場合でも、リベースを実行
-          git pull --rebase origin main
+          git pull --rebase origin C
           
           # 変更をリモートにプッシュ
-          git push origin HEAD:main
+          git push origin HEAD:C
