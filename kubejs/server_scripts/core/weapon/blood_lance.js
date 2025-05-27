@@ -23,7 +23,7 @@ ServerEvents.recipes(event => {
     'SR ',
     ' S '
   ], {
-    R: 'minecraft:redstone_block',
+    R: 'aoa3:bloodstone',
     L: 'minecraft:lapis_block',
     S: 'minecraft:stick'
   });
