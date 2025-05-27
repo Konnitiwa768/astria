@@ -1,0 +1,20 @@
+{
+  "type": "apotheosis:potion_effect",
+  "name": "Plasma Stunned",
+  "description": "You are stunned and cannot move!",
+  "color": 0x00ffff,
+  "icon": "minecraft:textures/mob_effect/plasma_stun.png",
+  "curativeItems": ["minecraft:milk_bucket"],
+  "isBeneficial": false,
+  "isInstant": false,
+  "showIcon": true,
+  "showParticles": true,
+  "attributeModifiers": [
+    {
+      "attribute": "minecraft:generic.movement_speed",
+      "operation": "multiply_total",
+      "amount": -1.0,
+      "slot": "any"
+    }
+  ]
+}
