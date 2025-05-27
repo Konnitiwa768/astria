@@ -7,7 +7,7 @@
 StartupEvents.registry('item', event => {
   event.create('plasma_spear')
     .displayName('Plasma Spear')
-    .type('spear') // 必要に応じてtypeは調整
+    .type('spartanweaponry:spear') // 必要に応じてtypeは調整
     .tier('netherite')
     .unstackable()
     .texture('kubejs:item/plasma_spear')
