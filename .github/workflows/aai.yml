@@ -1,0 +1,35 @@
+name: Generate Handheld Item Models
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - m1.19.2
+    paths:
+      - 'resourcepack/assets/kubejs/textures/item/*.png'
+
+jobs:
+  generate-models:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate model JSONs from PNGs (handheld)
+        run: |
+          set -e
+          TEXTURES_DIR="resourcepack/assets/kubejs/textures/item"
+          MODELS_DIR="resourcepack/assets/kubejs/textures/models/item"
+          mkdir -p "$MODELS_DIR"
+          for file in "$TEXTURES_DIR"/*.png; do
+            [ -e "$file" ] || continue
+            name=$(basename "$file" .png)
+            model_json="$MODELS_DIR/$name.json"
+            printf '{\n  "parent": "item/handheld",\n  "textures": {\n    "layer0": "kubejs:item/%s"\n  }\n}\n' "$name" > "$model_json"
+          done
+
+      - name: Commit and push generated models
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add resourcepack/assets/kubejs/textures/models/item/*.json
+          git diff --cached --exit-code || (git commit -m "Auto-generate handheld item models from textures" && git push)
