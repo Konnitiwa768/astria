@@ -87,7 +87,9 @@ EntityEvents.checkSpawn(event => {
   const blockedEntities = [
     'kubejs:sculin',
     'kubejs:sulcon_lv1',
-    'kubejs:scurpter'
+    'kubejs:scurpter',
+    'kubejs:draizer',
+    'kubejs:scane'
   ]
 
   if (blockedEntities.includes(type)) {
