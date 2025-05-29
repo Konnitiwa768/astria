@@ -64,6 +64,7 @@ StartupEvents.registry('entity_type', event => {
     .category('monster')
     .fireImmune(true)
     .armor(7)
+    .health(40)
     .dimensions(0.9, 1.8)
     .trackingRange(32)
     .clientTrackingRange(64)
