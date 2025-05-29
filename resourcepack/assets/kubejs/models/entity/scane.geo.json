@@ -3,7 +3,7 @@
   "minecraft:geometry": [
     {
       "description": {
-        "identifier": "kubejs:sculin",
+        "identifier": "kubejs:scane",
         "texture_width": 64,
         "texture_height": 64,
       },
