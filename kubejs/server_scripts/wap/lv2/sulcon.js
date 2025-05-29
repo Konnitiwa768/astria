@@ -62,7 +62,8 @@ EntityEvents.tick(event => {
 StartupEvents.registry('entity_type', event => {
   event.create('sulcon_lv1')
     .category('monster')
-    .fireImmune(false)
+    .fireImmune(true)
+    .armor(7)
     .dimensions(0.9, 1.8)
     .trackingRange(32)
     .clientTrackingRange(64)
