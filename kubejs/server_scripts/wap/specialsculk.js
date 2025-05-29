@@ -47,10 +47,51 @@ ItemEvents.rightClicked(event => {
     let newState = !current
     setMode(newState)
 
-    player.tell(newState ?
-      '§c[モードON] Warden & Parasites が有効化されました。' :
-      '§7[モードOFF] Warden & Parasites は無効です。')
+    player.const MODE_TAG = 'warden_and_parasites_mode'
 
-    event.cancel() // 消費防止（任意）
+// コマンドでモード切替
+ServerEvents.commandRegistry(event => {
+  const { commands: Commands, literal, playerArgument } = event
+
+  event.register(
+    literal('specialsculk')
+      .requires(s => !s.hasPermission(4)) // OP不要
+      .executes(ctx => {
+        const player = ctx.source.player
+        const held = player.mainHandItem
+
+        if (held.isEmpty()) {
+          const current = player.persistentData.get(MODE_TAG)
+          const next = !current
+
+          if (next) {
+            player.give(Item.of('minecraft:sculk').withName(Component.literal('§9特別なスカルク')))
+            player.tell('§aモードON: Warden and Parasites')
+          } else {
+            player.tell('§cモードOFF')
+          }
+
+          player.persistentData.putBoolean(MODE_TAG, next)
+        } else {
+          player.tell('§7手持ちが空いていないため、配布されませんでした')
+        }
+
+        return 1
+      })
+  )
+})
+
+// モブスポーン制御
+EntityEvents.checkSpawn(event => {
+  const type = event.entity.type
+  const blockedEntities = [
+    'kubejs:sculin',
+    'kubejs:sulcon_lv1',
+    'kubejs:scurpter'
+  ]
+
+  if (blockedEntities.includes(type)) {
+    const mode = event.level.persistentData.get(MODE_TAG)
+    if (!mode) event.cancel()
   }
 })
