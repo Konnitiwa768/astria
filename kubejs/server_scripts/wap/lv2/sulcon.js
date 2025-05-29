@@ -35,7 +35,7 @@ EntityEvents.tick(event => {
   e.motionZ = 0
 
   // 範囲攻撃（毎秒）
-  if (e.ticksExisted % 20 === 0) {
+  if (e.ticksExisted % 30 === 0) {
     const range = AABB.of(e.position, 8, 4, 8)
     e.level.getEntitiesWithin(range)
       .filter(target =>
