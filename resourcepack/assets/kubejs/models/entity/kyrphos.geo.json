@@ -1,0 +1,106 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.kyrphos",
+        "texture_width": 64,
+        "texture_height": 64,
+        "visible_bounds_width": 2.0,
+        "visible_bounds_height": 3.0,
+        "visible_bounds_offset": [0, 1.5, 0]
+      },
+      "bones": [
+        {
+          "name": "root",
+          "pivot": [0, 0, 0],
+          "rotation": [0, 0, 0]
+        },
+        {
+          "name": "body",
+          "parent": "root",
+          "pivot": [0, 12, 0],
+          "cubes": [
+            {
+              "origin": [-4, 0, -4],
+              "size": [8, 12, 8],
+              "uv": [0, 0]
+            }
+          ]
+        },
+        {
+          "name": "arm",
+          "parent": "body",
+          "pivot": [0, 24, -2],
+          "cubes": [
+            {
+              "origin": [-1, -16, -1],
+              "size": [2, 16, 2],
+              "uv": [32, 0]
+            }
+          ]
+        },
+        {
+          "name": "claw_1",
+          "parent": "arm",
+          "pivot": [-1.2, 8, 0],
+          "cubes": [
+            {
+              "origin": [-0.3, 0, -0.3],
+              "size": [1, 2, 1],
+              "uv": [32, 18]
+            }
+          ]
+        },
+        {
+          "name": "claw_2",
+          "parent": "arm",
+          "pivot": [-0.6, 8, 0.6],
+          "cubes": [
+            {
+              "origin": [-0.3, 0, -0.3],
+              "size": [1, 2, 1],
+              "uv": [32, 21]
+            }
+          ]
+        },
+        {
+          "name": "claw_3",
+          "parent": "arm",
+          "pivot": [0, 8, 0.8],
+          "cubes": [
+            {
+              "origin": [-0.3, 0, -0.3],
+              "size": [1, 2, 1],
+              "uv": [35, 18]
+            }
+          ]
+        },
+        {
+          "name": "claw_4",
+          "parent": "arm",
+          "pivot": [0.6, 8, 0.6],
+          "cubes": [
+            {
+              "origin": [-0.3, 0, -0.3],
+              "size": [1, 2, 1],
+              "uv": [35, 21]
+            }
+          ]
+        },
+        {
+          "name": "claw_5",
+          "parent": "arm",
+          "pivot": [1.2, 8, 0],
+          "cubes": [
+            {
+              "origin": [-0.3, 0, -0.3],
+              "size": [1, 2, 1],
+              "uv": [38, 18]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
