@@ -22,7 +22,7 @@ OAK_FILES = [
 ]
 
 DEST_DIR = "resourcepack/assets/kubejs/textures/block"
-SRC_URL = "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/"
+SRC_URL = "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/blocks/"
 
 os.makedirs(DEST_DIR, exist_ok=True)
 
