@@ -19,7 +19,7 @@ jobs:
       - name: Download All Oak Textures
         run: |
           # APIからitemsディレクトリのファイル一覧取得
-          curl -s https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/items \
+          curl -s https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/block \
             | jq -r '.[] | select(.name | test("oak")) | .name' > oak_files.txt
 
           # 対象ファイルが存在するか確認
@@ -30,15 +30,15 @@ jobs:
 
           # oakを含むファイルをすべてダウンロード
           while read file; do
-            curl -O https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/items/$file
+            curl -O https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/block/$file
           done < oak_files.txt
 
       - name: Generate Leafeau Textures
         run: |
-          mkdir -p resourcepack/assets/kubejs/textures/item
+          mkdir -p resourcepack/assets/kubejs/textures/block
           while read file; do
             base=$(basename $file .png)
-            convert $file -fill "#753dcf" -colorize 50% resourcepack/assets/kubejs/textures/item/phuthu_${base}.png
+            convert $file -fill "#753dcf" -colorize 50% resourcepack/assets/kubejs/textures/block/phuthu_${base}.png
           done < oak_files.txt
 
       - name: Commit and Push Changes
@@ -53,7 +53,7 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.SECRET_TOKEN }}@github.com/${{ github.repository }}
 
           # 生成されたファイルをgit add
-          git add resourcepack/assets/kubejs/textures/item/phuthu_*.png
+          git add resourcepack/assets/kubejs/textures/block/phuthu_*.png
           git commit -m "Generate Leafeau textures from oak base" || echo "No changes to commit"
           git pull --rebase origin Battlity || echo "Pull failed (likely due to conflicts or clean state)"
           git push origin HEAD:Battlity
