@@ -4,10 +4,10 @@ from PIL import Image
 
 OAK_FILES = [
     "planks_oak.png",
-    "stripped_log_oak.png",
-    "stripped_wood_oak.png",
-    "wood_oak.png",
-    "door_oak.png",
+    "stripped_log_oak_side.png",
+    "stripped_log_oak_top.png",
+    "door_oak_lower.png",
+    "door_oak_upper.png",
     "trapdoor_oak.png",
     "pressure_plate_oak.png",
     "button_oak.png",
