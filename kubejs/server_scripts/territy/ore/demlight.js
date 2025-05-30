@@ -170,3 +170,9 @@ ServerEvents.recipes(event => {
     L: 'minecraft:lantern'
   })
 })
+// アイテム登録
+StartupEvents.registry('item', event => {
+  event.create('demlight_lamp')
+    .displayName('デムライトランプ')
+    .block('demlight_lamp')
+})
