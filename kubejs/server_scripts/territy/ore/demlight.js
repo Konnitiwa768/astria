@@ -143,3 +143,30 @@ EntityEvents.hurt(event => {
       event.damage = event.damage * 0.5
   }
 })
+// -----------------------------------
+// デムライトランプブロック追加
+// -----------------------------------
+StartupEvents.registry('block', event => {
+  event.create('demlight_lamp')
+    .material('glass')
+    .hardness(8.0)
+    .resistance(50.0)
+    .lightLevel(15)
+    .displayName('デムライトランプブロック')
+    .requiresTool(true)
+    .tagBlock('minecraft:mineable/pickaxe')
+})
+
+// -----------------------------------
+// クラフトレシピ追加
+// -----------------------------------
+ServerEvents.recipes(event => {
+  event.shaped('8x kubejs:demlight_lamp', [
+    'SSS',
+    'SLS',
+    'SSS'
+  ], {
+    S: 'kubejs:demlight_scrap',
+    L: 'minecraft:lantern'
+  })
+})
