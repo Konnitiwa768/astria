@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const modId = 'yourmod';
+const modId = 'kubejs';
 const KUBEJS_DIR = 'kubejs';
 
 // ========== JSON書き込み ==========
@@ -56,7 +56,7 @@ writeJson(`${KUBEJS_DIR}/data/${modId}/worldgen/biome/phuthum.json`, {
     water_color: 4159204,
     water_fog_color: 329011
   },
-  features: ["#yourmod:phuthum_vegetation"],
+  features: ["#kubejs:phuthum_vegetation"],
   carvers: {},
   spawners: {},
   spawn_costs: {}
