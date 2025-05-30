@@ -1,4 +1,4 @@
-name: Generate Leafeau Textures (curl -o & python, files as array, oak_*.png)
+name: Generate Leafeau Textures (curl -o & python, each curl line, oak_*.png)
 
 on:
   push:
@@ -22,36 +22,115 @@ jobs:
       - name: Download and Convert Oak Textures (skip oak_log & oak_leaves)
         run: |
           mkdir -p resourcepack/assets/kubejs/textures/block
-          files=(
-            oak_planks.png
-            oak_stripped_log.png
-            oak_stripped_wood.png
-            oak_wood.png
-            oak_door.png
-            oak_trapdoor.png
-            oak_pressure_plate.png
-            oak_button.png
-            oak_fence.png
-            oak_fence_gate.png
-            oak_stairs.png
-            oak_slab.png
-            oak_sign.png
-            oak_boat.png
-            oak_hanging_sign.png
-            oak_chest.png
-            oak_bookshelf.png
-            oak_sapling.png
-          )
-          for file in "${files[@]}"; do
-            if [ -f "resourcepack/assets/kubejs/textures/block/phuthu_$file" ]; then
-              echo "Skip $file (already exists)"
-              continue
-            fi
-            echo "Downloading $file"
-            curl -f -o "$file" "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/$file"
-            python3 convert_oak_to_phuthu.py "$file" "resourcepack/assets/kubejs/textures/block/phuthu_$file"
-            rm -f "$file"
-          done
+
+          # 1ファイルずつcurlでダウンロードし変換
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_planks.png ]; then
+            curl -f -o oak_planks.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_planks.png"
+            python3 convert_oak_to_phuthu.py oak_planks.png resourcepack/assets/kubejs/textures/block/phuthu_oak_planks.png
+            rm -f oak_planks.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_stripped_log.png ]; then
+            curl -f -o oak_stripped_log.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_stripped_log.png"
+            python3 convert_oak_to_phuthu.py oak_stripped_log.png resourcepack/assets/kubejs/textures/block/phuthu_oak_stripped_log.png
+            rm -f oak_stripped_log.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_stripped_wood.png ]; then
+            curl -f -o oak_stripped_wood.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_stripped_wood.png"
+            python3 convert_oak_to_phuthu.py oak_stripped_wood.png resourcepack/assets/kubejs/textures/block/phuthu_oak_stripped_wood.png
+            rm -f oak_stripped_wood.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_wood.png ]; then
+            curl -f -o oak_wood.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_wood.png"
+            python3 convert_oak_to_phuthu.py oak_wood.png resourcepack/assets/kubejs/textures/block/phuthu_oak_wood.png
+            rm -f oak_wood.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_door.png ]; then
+            curl -f -o oak_door.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_door.png"
+            python3 convert_oak_to_phuthu.py oak_door.png resourcepack/assets/kubejs/textures/block/phuthu_oak_door.png
+            rm -f oak_door.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_trapdoor.png ]; then
+            curl -f -o oak_trapdoor.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_trapdoor.png"
+            python3 convert_oak_to_phuthu.py oak_trapdoor.png resourcepack/assets/kubejs/textures/block/phuthu_oak_trapdoor.png
+            rm -f oak_trapdoor.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_pressure_plate.png ]; then
+            curl -f -o oak_pressure_plate.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_pressure_plate.png"
+            python3 convert_oak_to_phuthu.py oak_pressure_plate.png resourcepack/assets/kubejs/textures/block/phuthu_oak_pressure_plate.png
+            rm -f oak_pressure_plate.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_button.png ]; then
+            curl -f -o oak_button.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_button.png"
+            python3 convert_oak_to_phuthu.py oak_button.png resourcepack/assets/kubejs/textures/block/phuthu_oak_button.png
+            rm -f oak_button.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_fence.png ]; then
+            curl -f -o oak_fence.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_fence.png"
+            python3 convert_oak_to_phuthu.py oak_fence.png resourcepack/assets/kubejs/textures/block/phuthu_oak_fence.png
+            rm -f oak_fence.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_fence_gate.png ]; then
+            curl -f -o oak_fence_gate.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_fence_gate.png"
+            python3 convert_oak_to_phuthu.py oak_fence_gate.png resourcepack/assets/kubejs/textures/block/phuthu_oak_fence_gate.png
+            rm -f oak_fence_gate.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_stairs.png ]; then
+            curl -f -o oak_stairs.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_stairs.png"
+            python3 convert_oak_to_phuthu.py oak_stairs.png resourcepack/assets/kubejs/textures/block/phuthu_oak_stairs.png
+            rm -f oak_stairs.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_slab.png ]; then
+            curl -f -o oak_slab.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_slab.png"
+            python3 convert_oak_to_phuthu.py oak_slab.png resourcepack/assets/kubejs/textures/block/phuthu_oak_slab.png
+            rm -f oak_slab.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_sign.png ]; then
+            curl -f -o oak_sign.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_sign.png"
+            python3 convert_oak_to_phuthu.py oak_sign.png resourcepack/assets/kubejs/textures/block/phuthu_oak_sign.png
+            rm -f oak_sign.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_boat.png ]; then
+            curl -f -o oak_boat.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_boat.png"
+            python3 convert_oak_to_phuthu.py oak_boat.png resourcepack/assets/kubejs/textures/block/phuthu_oak_boat.png
+            rm -f oak_boat.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_hanging_sign.png ]; then
+            curl -f -o oak_hanging_sign.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_hanging_sign.png"
+            python3 convert_oak_to_phuthu.py oak_hanging_sign.png resourcepack/assets/kubejs/textures/block/phuthu_oak_hanging_sign.png
+            rm -f oak_hanging_sign.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_chest.png ]; then
+            curl -f -o oak_chest.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_chest.png"
+            python3 convert_oak_to_phuthu.py oak_chest.png resourcepack/assets/kubejs/textures/block/phuthu_oak_chest.png
+            rm -f oak_chest.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_bookshelf.png ]; then
+            curl -f -o oak_bookshelf.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_bookshelf.png"
+            python3 convert_oak_to_phuthu.py oak_bookshelf.png resourcepack/assets/kubejs/textures/block/phuthu_oak_bookshelf.png
+            rm -f oak_bookshelf.png
+          fi
+
+          if [ ! -f resourcepack/assets/kubejs/textures/block/phuthu_oak_sapling.png ]; then
+            curl -f -o oak_sapling.png "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/oak_sapling.png"
+            python3 convert_oak_to_phuthu.py oak_sapling.png resourcepack/assets/kubejs/textures/block/phuthu_oak_sapling.png
+            rm -f oak_sapling.png
+          fi
 
       - name: Commit and Push Changes
         env:
@@ -64,6 +143,6 @@ jobs:
           git config --global user.email "actions@github.com"
           git remote set-url origin https://x-access-token:${{ secrets.SECRET_TOKEN }}@github.com/${{ github.repository }}
           git add resourcepack/assets/kubejs/textures/block/phuthu_*.png
-          git commit -m "Generate Leafeau textures from oak base (curl -o & python, files as array, oak_*.png)" || echo "No changes to commit"
+          git commit -m "Generate Leafeau textures from oak base (curl -o & python, each curl line, oak_*.png)" || echo "No changes to commit"
           git pull --rebase origin Battlity || echo "Pull failed"
           git push origin HEAD:Battlity
