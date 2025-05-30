@@ -19,8 +19,13 @@ jobs:
       - name: Download All Oak Textures
         run: |
           # APIからitemsディレクトリのファイル一覧取得
-          curl -s https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/block \
-            | jq -r '.[] | select(.name | test("oak")) | .name' > oak_files.txt
+          RESPONSE=$(curl -s https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/block)
+          if echo "$RESPONSE" | jq empty 2>/dev/null; then
+            echo "$RESPONSE" | jq -r '.[] | select(.name | test("oak")) | .name' > oak_files.txt
+          else
+            echo "API fetch failed or invalid JSON."
+            exit 1
+          fi
 
           # 対象ファイルが存在するか確認
           if [ ! -s oak_files.txt ]; then
