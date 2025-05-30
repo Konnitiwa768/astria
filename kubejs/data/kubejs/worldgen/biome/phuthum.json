@@ -1,0 +1,17 @@
+{
+  "precipitation": "none",
+  "temperature": 0.7,
+  "downfall": 0,
+  "effects": {
+    "sky_color": 11000000,
+    "fog_color": 6840176,
+    "water_color": 4159204,
+    "water_fog_color": 329011
+  },
+  "features": [
+    "#kubejs:phuthum_vegetation"
+  ],
+  "carvers": {},
+  "spawners": {},
+  "spawn_costs": {}
+}
