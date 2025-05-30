@@ -3,7 +3,7 @@ name: Generate Leafeau Textures
 on:
   push:
     branches:
-      - Battlity
+      - refs/heads/Battlity
 
 jobs:
   generate_leafeau_textures:
@@ -14,54 +14,34 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Dependencies
-        run: sudo apt-get update && sudo apt-get install -y imagemagick jq
+        run: sudo apt-get update && sudo apt-get install -y imagemagick file
 
-      - name: Download All Oak Textures
+      - name: Prepare Oak Files List
         run: |
-          response=$(curl -s https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/blocks)
-          if echo "$response" | jq 'type' | grep -q '"array"'; then
-            echo "$response" | jq -r '.[] | select(
-              (.name | test("oak")) and
-              (.name | test("birch") | not) and
-              (.name | test("spruce") | not) and
-              (.name | test("jungle") | not) and
-              (.name | test("acacia") | not) and
-              (.name | test("dark_oak") | not) and
-              (.name | test("mangrove") | not) and
-              (.name | test("cherry") | not) and
-              (.name | test("bamboo") | not) and
-              (.name | test("warped") | not) and
-              (.name | test("crimson") | not) and
-              (.name | test("tga") | not)    # ←ここを追加
-            ) | .name' > oak_files.txt
-          else
-            echo "API returned error or unexpected format:"
-            echo "$response" | jq -r '.message // .'
-            exit 1
-          fi
+          # Oakを含むファイル名だけをリスト
+          echo "leaves_oak.png" > oak_files.txt
+          echo "log_oak.png" >> oak_files.txt
+          echo "planks_oak.png" >> oak_files.txt
+          # 必要なOakファイル名をここに追加
 
-          if [ ! -s oak_files.txt ]; then
-            echo "No oak files found. API URL: https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/blocks"
-            echo "取得したファイル一覧:"
-            echo "$response" | jq -r '.[].name // .'
-            exit 0
-          fi
-
-          # oak_files.txtからtgaファイル除去
-          grep -v '\.tga$' oak_files.txt > oak_files_no_tga.txt
-          mv oak_files_no_tga.txt oak_files.txt
-
+      - name: Download PNG Images and Remove Broken Ones
+        run: |
           while read file; do
-            curl -O https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/block/$file
+            curl -f -O "https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/block/$file"
+            if ! file "$file" | grep -q 'PNG image data'; then
+              echo "$file はPNG画像ではありません。削除します。"
+              rm -f "$file"
+            fi
           done < oak_files.txt
 
       - name: Generate Leafeau Textures
         run: |
           mkdir -p resourcepack/assets/kubejs/textures/block
-          while read file; do
-            base=$(basename $file .png)
-            convert $file -fill "#753dcf" -colorize 50% resourcepack/assets/kubejs/textures/block/phuthu_${file}
-          done < oak_files.txt
+          for file in *.png; do
+            [ -e "$file" ] || continue
+            base=$(basename "$file" .png)
+            convert "$file" -fill "#753dcf" -colorize 50% "resourcepack/assets/kubejs/textures/block/phuthu_${base}.png"
+          done
 
       - name: Commit and Push Changes
         env:
