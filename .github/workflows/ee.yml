@@ -60,7 +60,7 @@ jobs:
           mkdir -p resourcepack/assets/kubejs/textures/block
           while read file; do
             base=$(basename $file .png)
-            convert $file -fill "#753dcf" -colorize 50% resourcepack/assets/kubejs/textures/block/phuthu_${base}.png
+            convert $file -fill "#753dcf" -colorize 50% resourcepack/assets/kubejs/textures/block/phuthu_${file}
           done < oak_files.txt
 
       - name: Commit and Push Changes
