@@ -3,22 +3,22 @@ import requests
 from PIL import Image
 
 OAK_FILES = [
-    "oak_planks.png",
-    "oak_stripped_log.png",
-    "oak_stripped_wood.png",
-    "oak_wood.png",
-    "oak_door.png",
-    "oak_trapdoor.png",
-    "oak_pressure_plate.png",
-    "oak_button.png",
-    "oak_fence.png",
-    "oak_fence_gate.png",
-    "oak_stairs.png",
-    "oak_slab.png",
-    "oak_sign.png",
-    "oak_boat.png",
-    "oak_hanging_sign.png",
-    "oak_sapling.png"
+    "planks_oak.png",
+    "stripped_log_oak.png",
+    "stripped_wood_oak.png",
+    "wood_oak.png",
+    "door_oak.png",
+    "trapdoor_oak.png",
+    "pressure_plate_oak.png",
+    "button_oak.png",
+    "fence_oak.png",
+    "fence_gate_oak.png",
+    "stairs_oak.png",
+    "slab_oak.png",
+    "sign_oak.png",
+    "boat_oak.png",
+    "hanging_sign_oak.png",
+    "sapling_oak.png"
 ]
 
 DEST_DIR = "resourcepack/assets/kubejs/textures/block"
