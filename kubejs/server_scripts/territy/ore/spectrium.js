@@ -116,3 +116,55 @@ WorldgenEvents.add(event => {
         ore.requiresTool = true
     })
 })
+// 例: kubejs/server_scripts/territy/ore/spectrium_smithing.js
+
+ServerEvents.recipes(event => {
+    // 剣
+    event.custom({
+        "type": "minecraft:smithing_transform",
+        "template": { "item": "kubejs:spectrium_smithing_template" },
+        "base":     { "item": "kubejs:demlight_sword" },
+        "addition": { "item": "kubejs:spectrium_ingot" },
+        "result":   { "item": "kubejs:spectrium_sword" }
+    })
+    // ピッケル
+    event.custom({
+        "type": "minecraft:smithing_transform",
+        "template": { "item": "kubejs:spectrium_smithing_template" },
+        "base":     { "item": "kubejs:demlight_pickaxe" },
+        "addition": { "item": "kubejs:spectrium_ingot" },
+        "result":   { "item": "kubejs:spectrium_pickaxe" }
+    })
+    // ヘルメット
+    event.custom({
+        "type": "minecraft:smithing_transform",
+        "template": { "item": "kubejs:spectrium_smithing_template" },
+        "base":     { "item": "kubejs:demlight_helmet" },
+        "addition": { "item": "kubejs:spectrium_ingot" },
+        "result":   { "item": "kubejs:spectrium_helmet" }
+    })
+    // チェストプレート
+    event.custom({
+        "type": "minecraft:smithing_transform",
+        "template": { "item": "kubejs:spectrium_smithing_template" },
+        "base":     { "item": "kubejs:demlight_chestplate" },
+        "addition": { "item": "kubejs:spectrium_ingot" },
+        "result":   { "item": "kubejs:spectrium_chestplate" }
+    })
+    // レギンス
+    event.custom({
+        "type": "minecraft:smithing_transform",
+        "template": { "item": "kubejs:spectrium_smithing_template" },
+        "base":     { "item": "kubejs:demlight_leggings" },
+        "addition": { "item": "kubejs:spectrium_ingot" },
+        "result":   { "item": "kubejs:spectrium_leggings" }
+    })
+    // ブーツ
+    event.custom({
+        "type": "minecraft:smithing_transform",
+        "template": { "item": "kubejs:spectrium_smithing_template" },
+        "base":     { "item": "kubejs:demlight_boots" },
+        "addition": { "item": "kubejs:spectrium_ingot" },
+        "result":   { "item": "kubejs:spectrium_boots" }
+    })
+})
