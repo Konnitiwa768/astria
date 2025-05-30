@@ -3,7 +3,7 @@ name: Generate Leafeau Textures
 on:
   push:
     branches:
-      - refs/heads/Battlity
+      - Battlity
 
 jobs:
   generate_leafeau_textures:
