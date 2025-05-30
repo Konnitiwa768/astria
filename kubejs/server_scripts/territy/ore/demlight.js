@@ -6,18 +6,22 @@ StartupEvents.registry('item', event => {
   event.create('demlight_ingot').displayName('デムライトインゴット')
   event.create('demlight_smithing_template').displayName('デムライト鍛治型')
   // ツール
-  event.create('demlight_sword')
-    .type('sword')
-    .tier('diamond')
-    .attackDamageBaseline(9) // ネザライトより少し強め、調整可
-    .attackSpeedBaseline(1.6)
-    .displayName('デムライトの剣')
+  StartupEvents.registry('item', event => {
   event.create('demlight_pickaxe')
     .type('pickaxe')
     .tier('diamond')
     .attackDamageBaseline(6)
     .attackSpeedBaseline(1.2)
+    .miningSpeed(10)         // 掘削速度
+    .miningLevel(5)          // 採掘レベル（ネザライトより上の場合は4等に）
     .displayName('デムライトのつるはし')
+
+  event.create('demlight_sword')
+    .type('sword')
+    .tier('diamond')
+    .attackDamageBaseline(9)
+    .attackSpeedBaseline(1.6)
+    .displayName('デムライトの剣')
 })
 
 StartupEvents.registry('block', event => {
