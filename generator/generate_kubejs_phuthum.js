@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const modId = 'kubejs';
-const KUBEJS_DIR = 'kubejs';
+const KUBEJS_DIR = '';
 
 // ========== JSON書き込み ==========
 function writeJson(filePath, content) {
