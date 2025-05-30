@@ -38,7 +38,7 @@ jobs:
           mkdir -p resourcepack/assets/kubejs/textures/item
           while read file; do
             base=$(basename $file .png)
-            convert $file -fill "#753dcf" -colorize 50% resourcepack/assets/kubejs/textures/item/demlight_${base}.png
+            convert $file -fill "#753dcf" -colorize 50% resourcepack/assets/kubejs/textures/item/phuthu_${base}.png
           done < oak_files.txt
 
       - name: Commit and Push Changes
@@ -53,8 +53,7 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.SECRET_TOKEN }}@github.com/${{ github.repository }}
 
           # 生成されたファイルをgit add
-          git add resourcepack/assets/kubejs/textures/item/demlight_*.png
-
+          git add resourcepack/assets/kubejs/textures/item/phuthu_*.png
           git commit -m "Generate Leafeau textures from oak base" || echo "No changes to commit"
           git pull --rebase origin Battlity || echo "Pull failed (likely due to conflicts or clean state)"
           git push origin HEAD:Battlity
