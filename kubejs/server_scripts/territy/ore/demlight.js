@@ -176,3 +176,12 @@ StartupEvents.registry('item', event => {
     .displayName('デムライトランプ')
     .block('demlight_lamp')
 })
+ServerEvents.recipes(event => {
+  event.shapeless(
+    Item.of('scalinghealth:heart_crystal', 3), // 出力: ハートクリスタル3個
+    [
+      Item.of('scalinghealth:heart_shard', 4), // ハートシャード4個
+      'kubejs:spectrium_scrap'                 // スペクトリウムスクラップ1個
+    ]
+  )
+})
