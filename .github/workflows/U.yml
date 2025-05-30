@@ -1,4 +1,4 @@
-name: Generate Leafeau Textures (python & commit)
+name: Generate Leafeau Textures (curl -o & python, files as list)
 
 on:
   push:
@@ -19,14 +19,40 @@ jobs:
           sudo apt-get install -y git curl python3 python3-pip
           pip3 install pillow
 
-      - name: Download Oak Textures
+      - name: Download and Convert Oak Textures (skip log & leaves)
         run: |
-          for file in  planks_oak.png stripped_log_oak.png stripped_wood_oak.png wood_oak.png door_oak.png trapdoor_oak.png pressure_plate_oak.png button_oak.png fence_oak.png fence_gate_oak.png stairs_oak.png slab_oak.png sign_oak.png boat_oak.png hanging_sign_oak.png chest_oak.png bookshelf_oak.png sapling_oak.png; do
-            curl -f -O "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/$file"
+          mkdir -p resourcepack/assets/kubejs/textures/block
+          files=(
+            planks_oak.png
+            stripped_log_oak.png
+            stripped_wood_oak.png
+            wood_oak.png
+            door_oak.png
+            trapdoor_oak.png
+            pressure_plate_oak.png
+            button_oak.png
+            fence_oak.png
+            fence_gate_oak.png
+            stairs_oak.png
+            slab_oak.png
+            sign_oak.png
+            boat_oak.png
+            hanging_sign_oak.png
+            chest_oak.png
+            bookshelf_oak.png
+            sapling_oak.png
+          )
+          for file in "${files[@]}"; do
+            # すでに生成済みの場合はスキップ
+            if [ -f "resourcepack/assets/kubejs/textures/block/phuthu_$file" ]; then
+              echo "Skip $file (already exists)"
+              continue
+            fi
+            echo "Downloading $file"
+            curl -f -o "$file" "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/$file"
+            python3 convert_oak_to_phuthu.py "$file" "resourcepack/assets/kubejs/textures/block/phuthu_$file"
+            rm -f "$file"
           done
-
-      - name: Convert Textures with Python
-        run: python3 convert_oak_to_phuthu.py
 
       - name: Commit and Push Changes
         env:
@@ -39,6 +65,6 @@ jobs:
           git config --global user.email "actions@github.com"
           git remote set-url origin https://x-access-token:${{ secrets.SECRET_TOKEN }}@github.com/${{ github.repository }}
           git add resourcepack/assets/kubejs/textures/block/phuthu_*.png
-          git commit -m "Generate Leafeau textures from oak base (python convert)" || echo "No changes to commit"
+          git commit -m "Generate Leafeau textures from oak base (curl -o & python, files as array)" || echo "No changes to commit"
           git pull --rebase origin Battlity || echo "Pull failed"
           git push origin HEAD:Battlity
