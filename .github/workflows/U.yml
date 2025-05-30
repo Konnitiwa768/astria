@@ -1,0 +1,44 @@
+name: Generate Leafeau Textures (python & commit)
+
+on:
+  push:
+    branches:
+      - Battlity
+
+jobs:
+  generate_leafeau_textures:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git curl python3 python3-pip
+          pip3 install pillow
+
+      - name: Download Oak Textures
+        run: |
+          for file in  planks_oak.png stripped_log_oak.png stripped_wood_oak.png wood_oak.png door_oak.png trapdoor_oak.png pressure_plate_oak.png button_oak.png fence_oak.png fence_gate_oak.png stairs_oak.png slab_oak.png sign_oak.png boat_oak.png hanging_sign_oak.png chest_oak.png bookshelf_oak.png sapling_oak.png; do
+            curl -f -O "https://raw.githubusercontent.com/Mojang/bedrock-samples/refs/heads/main/resource_pack/textures/block/$file"
+          done
+
+      - name: Convert Textures with Python
+        run: python3 convert_oak_to_phuthu.py
+
+      - name: Commit and Push Changes
+        env:
+          GIT_AUTHOR_NAME: GitHub Actions
+          GIT_COMMITTER_NAME: GitHub Actions
+          GIT_AUTHOR_EMAIL: actions@github.com
+          GIT_COMMITTER_EMAIL: actions@github.com
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.SECRET_TOKEN }}@github.com/${{ github.repository }}
+          git add resourcepack/assets/kubejs/textures/block/phuthu_*.png
+          git commit -m "Generate Leafeau textures from oak base (python convert)" || echo "No changes to commit"
+          git pull --rebase origin Battlity || echo "Pull failed"
+          git push origin HEAD:Battlity
