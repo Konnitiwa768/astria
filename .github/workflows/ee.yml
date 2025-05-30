@@ -18,23 +18,34 @@ jobs:
 
       - name: Download All Oak Textures
         run: |
-          # APIからitemsディレクトリのファイル一覧取得
           response=$(curl -s https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/block)
-          # JSONが配列ならoakファイルを抽出、そうでなければエラー出力
           if echo "$response" | jq 'type' | grep -q '"array"'; then
-            echo "$response" | jq -r '.[] | select(.name | test("oak")) | .name' > oak_files.txt
+            echo "$response" | jq -r '.[] | select(
+              (.name | test("oak")) and
+              (.name | test("birch") | not) and
+              (.name | test("spruce") | not) and
+              (.name | test("jungle") | not) and
+              (.name | test("acacia") | not) and
+              (.name | test("dark_oak") | not) and
+              (.name | test("mangrove") | not) and
+              (.name | test("cherry") | not) and
+              (.name | test("bamboo") | not) and
+              (.name | test("warped") | not) and
+              (.name | test("crimson") | not)
+            ) | .name' > oak_files.txt
           else
+            echo "API returned error or unexpected format:"
             echo "$response" | jq -r '.message // .'
             exit 1
           fi
 
-          # 対象ファイルが存在するか確認
           if [ ! -s oak_files.txt ]; then
-            echo "No oak files found."
+            echo "No oak files found. API URL: https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/block"
+            echo "取得したファイル一覧:"
+            echo "$response" | jq -r '.[].name // .'
             exit 0
           fi
 
-          # oakを含むファイルをすべてダウンロード
           while read file; do
             curl -O https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/block/$file
           done < oak_files.txt
