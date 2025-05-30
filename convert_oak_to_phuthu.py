@@ -1,17 +1,13 @@
 from PIL import Image
+import sys
 import os
-import glob
 
-# 色変換のパラメータ
-TINT_COLOR = (117, 61, 207, 128)  # #753dcf, alpha 128
-OUTPUT_DIR = "resourcepack/assets/kubejs/textures/block"
+input_file = sys.argv[1]
+output_file = sys.argv[2]
 
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-
-for file in glob.glob("*.png"):
-    with Image.open(file).convert("RGBA") as img:
-        tint = Image.new("RGBA", img.size, TINT_COLOR)
-        blended = Image.alpha_composite(img, tint)
-        outname = os.path.join(OUTPUT_DIR, "phuthu_" + file)
-        blended.save(outname)
-        print(f"Processed {file} -> {outname}")
+img = Image.open(input_file).convert("RGBA")
+tint = Image.new("RGBA", img.size, (117, 61, 207, 128))  # #753dcf, alpha 128
+img = Image.alpha_composite(img, tint)
+os.makedirs(os.path.dirname(output_file), exist_ok=True)
+img.save(output_file)
+print(f"Converted {input_file} -> {output_file}")
