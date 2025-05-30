@@ -48,6 +48,13 @@ jobs:
 
           while read file; do
             curl -O https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/block/$file
+            # tgaならpngへ変換
+            if [[ "$file" == *.tga ]]; then
+              convert "$file" "${file%.tga}.png"
+              rm "$file"
+              # oak_files.txtもpngファイル名に書き換え
+              sed -i "s/$file/${file%.tga}.png/" oak_files.txt
+            fi
           done < oak_files.txt
 
       - name: Generate Leafeau Textures
