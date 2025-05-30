@@ -18,7 +18,7 @@ jobs:
 
       - name: Download All Oak Textures
         run: |
-          response=$(curl -s https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/blocks)
+          response=$(curl -s https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/block)
           if echo "$response" | jq 'type' | grep -q '"array"'; then
             echo "$response" | jq -r '.[] | select(
               (.name | test("oak")) and
@@ -40,7 +40,7 @@ jobs:
           fi
 
           if [ ! -s oak_files.txt ]; then
-            echo "No oak files found. API URL: https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/blocks"
+            echo "No oak files found. API URL: https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/block"
             echo "取得したファイル一覧:"
             echo "$response" | jq -r '.[].name // .'
             exit 0
@@ -48,37 +48,14 @@ jobs:
 
           while read file; do
             curl -O https://raw.githubusercontent.com/Mojang/bedrock-samples/main/resource_pack/textures/block/$file
-            # tgaならpngへ変換
-            if [[ "$file" == *.tga ]]; then
-              if convert "$file" "${file%.tga}.png"; then
-                rm "$file"
-                # oak_files.txtもpngファイル名に書き換え
-                sed -i "s/$file/${file%.tga}.png/" oak_files.txt
-              else
-                echo "変換失敗: $file"
-                sed -i "/$file/d" oak_files.txt
-                rm -f "$file"
-              fi
-            fi
-            # png, tga以外や失敗時はリストから除外
-            if [[ ! -f "${file%.tga}.png" && "$file" == *.tga ]]; then
-              sed -i "/$file/d" oak_files.txt
-            fi
-            if [[ "$file" != *.png && "$file" != *.tga ]]; then
-              sed -i "/$file/d" oak_files.txt
-            fi
           done < oak_files.txt
 
       - name: Generate Leafeau Textures
         run: |
           mkdir -p resourcepack/assets/kubejs/textures/block
           while read file; do
-            if [[ -f "$file" ]]; then
-              base=$(basename "$file" .png)
-              convert "$file" -fill "#753dcf" -colorize 50% "resourcepack/assets/kubejs/textures/block/phuthu_${base}.png" || echo "変換失敗: $file"
-            else
-              echo "ファイルが見つかりません: $file"
-            fi
+            base=$(basename $file .png)
+            convert $file -fill "#753dcf" -colorize 50% resourcepack/assets/kubejs/textures/block/phuthu_${base}.png
           done < oak_files.txt
 
       - name: Commit and Push Changes
@@ -92,6 +69,7 @@ jobs:
           git config --global user.email "actions@github.com"
           git remote set-url origin https://x-access-token:${{ secrets.SECRET_TOKEN }}@github.com/${{ github.repository }}
 
+          # 生成されたファイルをgit add
           git add resourcepack/assets/kubejs/textures/block/phuthu_*.png
           git commit -m "Generate Leafeau textures from oak base" || echo "No changes to commit"
           git pull --rebase origin Battlity || echo "Pull failed (likely due to conflicts or clean state)"
