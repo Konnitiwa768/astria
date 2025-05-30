@@ -9,7 +9,8 @@ StartupEvents.registry('item', event => {
   StartupEvents.registry('item', event => {
   event.create('demlight_pickaxe')
     .type('pickaxe')
-    .tier('diamond')
+    .tier('netherrite')
+    .durability(2100)
     .attackDamageBaseline(6)
     .attackSpeedBaseline(1.2)
     .miningSpeed(10)         // 掘削速度
@@ -18,7 +19,8 @@ StartupEvents.registry('item', event => {
 
   event.create('demlight_sword')
     .type('sword')
-    .tier('diamond')
+    .tier('netherrite')
+    .durability(2100)
     .attackDamageBaseline(9)
     .attackSpeedBaseline(1.6)
     .displayName('デムライトの剣')
@@ -94,10 +96,10 @@ ServerEvents.recipes(event => {
   })
   // 防具アップグレード
   const armor = [
-    ['helmet', 'diamond_helmet', 'demlight_helmet'],
-    ['chestplate', 'diamond_chestplate', 'demlight_chestplate'],
-    ['leggings', 'diamond_leggings', 'demlight_leggings'],
-    ['boots', 'diamond_boots', 'demlight_boots']
+    ['helmet', 'netherrite_helmet', 'demlight_helmet'],
+    ['chestplate', 'netherrite_chestplate', 'demlight_chestplate'],
+    ['leggings', 'netherrite_leggings', 'demlight_leggings'],
+    ['boots', 'netherrite_boots', 'demlight_boots']
   ]
   armor.forEach(([type, diamond, demlight]) => {
     event.custom({
@@ -112,14 +114,14 @@ ServerEvents.recipes(event => {
   event.custom({
     type: 'minecraft:smithing_transform',
     template: { item: 'kubejs:demlight_smithing_template' },
-    base: { item: 'minecraft:diamond_sword' },
+    base: { item: 'minecraft:netherrite_sword' },
     addition: { item: 'kubejs:demlight_ingot' },
     result: { item: 'kubejs:demlight_sword' }
   })
   event.custom({
     type: 'minecraft:smithing_transform',
     template: { item: 'kubejs:demlight_smithing_template' },
-    base: { item: 'minecraft:diamond_pickaxe' },
+    base: { item: 'minecraft:netherrite_pickaxe' },
     addition: { item: 'kubejs:demlight_ingot' },
     result: { item: 'kubejs:demlight_pickaxe' }
   })
