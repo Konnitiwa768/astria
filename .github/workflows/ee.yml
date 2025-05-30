@@ -18,7 +18,7 @@ jobs:
 
       - name: Download All Oak Textures
         run: |
-          response=$(curl -s https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/block)
+          response=$(curl -s https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/blocks)
           if echo "$response" | jq 'type' | grep -q '"array"'; then
             echo "$response" | jq -r '.[] | select(
               (.name | test("oak")) and
@@ -40,7 +40,7 @@ jobs:
           fi
 
           if [ ! -s oak_files.txt ]; then
-            echo "No oak files found. API URL: https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/block"
+            echo "No oak files found. API URL: https://api.github.com/repos/Mojang/bedrock-samples/contents/resource_pack/textures/blocks"
             echo "取得したファイル一覧:"
             echo "$response" | jq -r '.[].name // .'
             exit 0
