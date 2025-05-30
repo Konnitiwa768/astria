@@ -168,3 +168,41 @@ ServerEvents.recipes(event => {
         "result":   { "item": "kubejs:spectrium_boots" }
     })
 })
+// スペクトリウムランプのブロック登録
+StartupEvents.registry('block', event => {
+  event.create('spectrium_lamp')
+    .displayName('スペクトリウムランプ')
+    .material('glass')
+    .lightLevel((block, state) => state.get('lit') ? 15 : 0)
+    .requiresTool(false)
+    .hardness(9)
+    .resistance(55)
+    .waterlogged(true)
+    .properties(props => {
+      props.bool('lit', true) // 初期状態:点灯
+    })
+    .renderType('cutout')
+    .onRedstoneUpdate((level, pos, state) => {
+      const powered = level.getRedstonePower(pos) > 0
+      level.setBlock(pos, state.with('lit', powered))
+    })
+})
+
+// アイテム登録
+StartupEvents.registry('item', event => {
+  event.create('spectrium_lamp')
+    .displayName('スペクトリウムランプ')
+    .block('spectrium_lamp')
+})
+
+// クラフトレシピ例
+ServerEvents.recipes(event => {
+  event.shaped('8x kubejs:spectrium_lamp', [
+    'SSS',
+    'SLS',
+    'SSS'
+  ], {
+    L: 'minecraft:lantern',
+    S: 'kubejs:spectrium_ingot'
+  })
+})
