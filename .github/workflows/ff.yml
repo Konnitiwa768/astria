@@ -1,6 +1,12 @@
 name: Nether Star Armor Texture Convert
 
 on:
+  push:
+    branches:
+      - Battlity
+  pull_request:
+    branches:
+      - Battlity
   workflow_dispatch:
 
 jobs:
