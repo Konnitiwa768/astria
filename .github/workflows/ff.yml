@@ -61,7 +61,7 @@ jobs:
             part=$3
             out="resourcepack/assets/kubejs/textures/item/${prefix}_${part}.png"
             upper_hue=80  # 緑系（例: +80度）
-            lower_hue=40  # 黄系（例: +40度）
+            lower_hue=160  # 黄系（例: +40度）
 
             # 元画像を16x16にリサイズ
             convert "$src" -resize 16x16^ -gravity center -extent 16x16 tmp_full.png
@@ -71,7 +71,7 @@ jobs:
             convert tmp_full.png -crop 16x8+0+8 +repage lower.png
 
             # 色相シフト
-            convert upper.png -alpha on -modulate 80,100,"$upper_hue" upper_hue.png
+            convert upper.png -alpha on -modulate 100,100,"$upper_hue" upper_hue.png
             convert lower.png -alpha on -modulate 100,100,"$lower_hue" lower_hue.png
 
             # 合成
