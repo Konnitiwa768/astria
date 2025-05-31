@@ -60,8 +60,8 @@ jobs:
             prefix=$2
             part=$3
             out="resourcepack/assets/kubejs/textures/item/${prefix}_${part}.png"
-            upper_hue=80  # 緑系（例: +80度）
-            lower_hue=160  # 黄系（例: +40度）
+            upper_hue=80  # 緑系（例: +80度)
+            lower_hue=160  # 黄系（例: +40度)
 
             # 元画像を16x16にリサイズ
             convert "$src" -resize 16x16^ -gravity center -extent 16x16 tmp_full.png
@@ -102,7 +102,7 @@ jobs:
           for item in helmet chestplate leggings boots; do
             # recolor
             recolor "nether_star_${item}.png" 150 "${PREFIXES[demlight]}" "$item"   # 紫系
-            recolor "nether_star_${item}.png"　25 "${PREFIXES[provarm]}" "$item"    # 赤系
+            recolor "nether_star_${item}.png"　25 "${PREFIXES[provarm]}" "$item" # 赤系
             # spectrium（上下でhueを変える）
             spectrium "nether_star_${item}.png" "${PREFIXES[spectrium]}" "$item"
 
