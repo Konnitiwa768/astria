@@ -26,13 +26,24 @@ jobs:
             curl -L -o "nether_star_${item}.png" "https://raw.githubusercontent.com/Konnitiwa768/Morearmors/main/src/main/resources/assets/morearmors/textures/items/nether_star_${item}.png"
           done
 
+      # 元画像の不透明部分だけをくり抜く処理（clip）
+      - name: Clip original images (opaque only)
+        run: |
+          mkdir -p resourcepack/assets/kubejs/textures/item
+          for item in helmet chestplate leggings boots; do
+            convert "nether_star_${item}.png" -alpha extract mask.png
+            convert "nether_star_${item}.png" mask.png -alpha off -compose CopyOpacity -composite \
+              "resourcepack/assets/kubejs/textures/item/nether_star_${item}_opaqueclip.png"
+            rm mask.png
+          done
+
       # 元色くり抜き（clip）と色変換（convert）両方生成
       - name: Convert all images (original+color, lowercase, alpha keep)
         run: |
           set -e
           mkdir -p resourcepack/assets/kubejs/textures/item
 
-          # clip: 元色でくり抜き
+          # clip: 元色でくり抜き（旧clip：アルファ保持して16x16化）
           for item in helmet chestplate leggings boots; do
             convert "nether_star_${item}.png" -resize 16x16^ -gravity center -extent 16x16 \
               -alpha on "resourcepack/assets/kubejs/textures/item/nether_star_${item}.png"
