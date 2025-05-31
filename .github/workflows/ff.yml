@@ -26,7 +26,7 @@ jobs:
             curl -L -o "nether_star_${item}.png" "https://raw.githubusercontent.com/Konnitiwa768/Morearmors/main/src/main/resources/assets/morearmors/textures/items/nether_star_${item}.png"
           done
 
-      # 元画像の不透明部分だけをくり抜く処理（clip）
+      # Nether Star clip（元画像の不透明部分だけをくり抜く）
       - name: Clip original images (opaque only)
         run: |
           mkdir -p resourcepack/assets/kubejs/textures/item
@@ -37,17 +37,11 @@ jobs:
             rm mask.png
           done
 
-      # 元色くり抜き（clip）と色変換（convert）両方生成
-      - name: Convert all images (original+color, lowercase, alpha keep)
+      # recolor, spectrium画像の生成とclip
+      - name: Convert and clip recolor/spectrium images
         run: |
           set -e
           mkdir -p resourcepack/assets/kubejs/textures/item
-
-          # clip: 元色でくり抜き（旧clip：アルファ保持して16x16化）
-          for item in helmet chestplate leggings boots; do
-            convert "nether_star_${item}.png" -resize 16x16^ -gravity center -extent 16x16 \
-              -alpha on "resourcepack/assets/kubejs/textures/item/nether_star_${item}.png"
-          done
 
           # recolor: 透明部分維持して色だけ置換（クリッピング）
           recolor() {
@@ -76,6 +70,15 @@ jobs:
             rm upper.png lower.png color.png mask.png colorclip.png
           }
 
+          # くり抜きclip関数
+          clip_opaque() {
+            input_img=$1
+            output_img=$2
+            convert "$input_img" -alpha extract mask.png
+            convert "$input_img" mask.png -alpha off -compose CopyOpacity -composite "$output_img"
+            rm mask.png
+          }
+
           # prefixはすべて小文字
           declare -A PREFIXES=(
             [demlight]="demlight"
@@ -84,9 +87,18 @@ jobs:
           )
 
           for item in helmet chestplate leggings boots; do
+            # recolor
             recolor "nether_star_${item}.png" "#753dcf" "${PREFIXES[demlight]}" "$item"
             recolor "nether_star_${item}.png" "#dd0000" "${PREFIXES[provarm]}" "$item"
+            # spectrium
             spectrium "nether_star_${item}.png" "${PREFIXES[spectrium]}" "$item"
+
+            # 各リカラー・スペクトリウム画像もclip（不透明部分だけくり抜き）
+            for prefix in demlight provarm spectrium; do
+              src="resourcepack/assets/kubejs/textures/item/${prefix}_${item}.png"
+              out="resourcepack/assets/kubejs/textures/item/${prefix}_${item}_opaqueclip.png"
+              clip_opaque "$src" "$out"
+            done
           done
 
       # 自動コミット＆push前にpull --rebase
