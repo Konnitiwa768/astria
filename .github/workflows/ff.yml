@@ -24,14 +24,10 @@ jobs:
 
       - name: Delete old converted files
         run: |
-          rm -f resourcepack/assets/kubejs/textures/item/Provarm_*.png || true
-          rm -f resourcepack/assets/kubejs/textures/item/Demlight_*.png || true
-          rm -f resourcepack/assets/kubejs/textures/item/Spectrium_*.png || true
-          rm -f resourcepack/assets/kubejs/textures/item/Provurm_*.png || true
-          rm -f resourcepack/assets/kubejs/textures/item/*_provarm.png || true
-          rm -f resourcepack/assets/kubejs/textures/item/*_provurm.png || true
-          rm -f resourcepack/assets/kubejs/textures/item/*_demlight.png || true
-          rm -f resourcepack/assets/kubejs/textures/item/*_spectrium.png || true
+          rm -f resourcepack/assets/kubejs/textures/item/demlight_*.png || true
+          rm -f resourcepack/assets/kubejs/textures/item/provarm_*.png || true
+          rm -f resourcepack/assets/kubejs/textures/item/spectrium_*.png || true
+          rm -f resourcepack/assets/kubejs/textures/item/provurm_*.png || true
 
       - name: Download original images
         run: |
@@ -39,11 +35,11 @@ jobs:
             curl -L -o "nether_star_${item}.png" "https://raw.githubusercontent.com/Konnitiwa768/Morearmors/main/src/main/resources/assets/morearmors/textures/items/nether_star_${item}.png"
           done
 
-      - name: Convert images with ImageMagick
+      - name: Convert images with ImageMagick (クリップ式で透明化＆小文字)
         run: |
           set -e
 
-          # recolor: 指定色＋75%不透明でベタ塗り、元画像形状で切り抜き
+          # recolor: クリップ式透明処理＋小文字ファイル名
           recolor() {
             src=$1
             color=$2
@@ -51,45 +47,34 @@ jobs:
             part=$4
             out="resourcepack/assets/kubejs/textures/item/${prefix}_${part}.png"
             convert "$src" -resize 16x16^ -gravity center -extent 16x16 -alpha extract mask.png
-            convert -size 16x16 xc:"rgba($color,0.75)" -alpha on mask.png -compose CopyOpacity -composite "$out"
+            convert -size 16x16 xc:"rgba($color,1.0)" mask.png -compose CopyOpacity -composite "$out"
             rm mask.png
           }
 
-          # spectrium: 上半分44ff44(緑), 下半分cccc00(黄)で塗り分け
+          # spectrium: 上半分44ff44(緑), 下半分cccc00(黄)をクリップ
           spectrium() {
             src=$1
             prefix=$2
             part=$3
             out="resourcepack/assets/kubejs/textures/item/${prefix}_${part}.png"
             convert "$src" -resize 16x16^ -gravity center -extent 16x16 -alpha extract msk.png
-            convert -size 16x8 xc:'rgba(68,255,68,0.75)' upper.png
-            convert -size 16x8 xc:'rgba(204,204,0,0.75)' lower.png
+            convert -size 16x8 xc:'rgba(68,255,68,1.0)' upper.png
+            convert -size 16x8 xc:'rgba(204,204,0,1.0)' lower.png
             convert upper.png lower.png -append color.png
-            convert color.png msk.png -alpha Off -compose CopyOpacity -composite tmp.png
-            convert "$src" -resize 16x16^ -gravity center -extent 16x16 -alpha set -channel a -evaluate set 0 +channel base.png
-            convert base.png tmp.png -composite "$out"
-            rm upper.png lower.png color.png msk.png tmp.png base.png
+            convert color.png msk.png -compose CopyOpacity -composite "$out"
+            rm upper.png lower.png color.png msk.png
           }
 
-          # 出力ファイル名接頭語
+          # 小文字prefix
           declare -A PREFIXES=(
-            [demlight]="Demlight"
-            [provarm]="Provarm"
-            [spectrium]="Spectrium"
+            [demlight]="demlight"
+            [provarm]="provarm"
+            [spectrium]="spectrium"
           )
 
-          # デムライト 753dcf
           for item in helmet chestplate leggings boots; do
             recolor "nether_star_${item}.png" "117,61,207" "${PREFIXES[demlight]}" "$item"
-          done
-
-          # プロヴァーム dddd00
-          for item in helmet chestplate leggings boots; do
             recolor "nether_star_${item}.png" "221,221,0" "${PREFIXES[provarm]}" "$item"
-          done
-
-          # スペクトリウム 上半分44ff44, 下半分cccc00
-          for item in helmet chestplate leggings boots; do
             spectrium "nether_star_${item}.png" "${PREFIXES[spectrium]}" "$item"
           done
 
@@ -98,5 +83,5 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add resourcepack/assets/kubejs/textures/item
-          git commit -m "Auto: regenerate all armor textures with new naming (Prefix_Part.png) and cleanup old files" || echo "No changes to commit"
+          git commit -m "Auto: regenerate armor textures with lowercase and proper mask clip" || echo "No changes to commit"
           git push
