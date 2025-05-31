@@ -22,12 +22,22 @@ jobs:
       - name: Prepare directories
         run: mkdir -p resourcepack/assets/kubejs/textures/item
 
+      - name: Delete old converted files
+        run: |
+          rm -f resourcepack/assets/kubejs/textures/item/Provarm_*.png || true
+          rm -f resourcepack/assets/kubejs/textures/item/Demlight_*.png || true
+          rm -f resourcepack/assets/kubejs/textures/item/Spectrium_*.png || true
+          rm -f resourcepack/assets/kubejs/textures/item/Provurm_*.png || true
+          rm -f resourcepack/assets/kubejs/textures/item/*_provarm.png || true
+          rm -f resourcepack/assets/kubejs/textures/item/*_provurm.png || true
+          rm -f resourcepack/assets/kubejs/textures/item/*_demlight.png || true
+          rm -f resourcepack/assets/kubejs/textures/item/*_spectrium.png || true
+
       - name: Download original images
         run: |
           for item in helmet chestplate leggings boots; do
             curl -L -o "nether_star_${item}.png" "https://raw.githubusercontent.com/Konnitiwa768/Morearmors/main/src/main/resources/assets/morearmors/textures/items/nether_star_${item}.png"
           done
-          ls -lh nether_star_*.png
 
       - name: Convert images with ImageMagick
         run: |
@@ -37,7 +47,9 @@ jobs:
           recolor() {
             src=$1
             color=$2
-            out=$3
+            prefix=$3
+            part=$4
+            out="resourcepack/assets/kubejs/textures/item/${prefix}_${part}.png"
             convert "$src" -resize 16x16^ -gravity center -extent 16x16 -alpha extract mask.png
             convert -size 16x16 xc:"rgba($color,0.75)" -alpha on mask.png -compose CopyOpacity -composite "$out"
             rm mask.png
@@ -46,7 +58,9 @@ jobs:
           # spectrium: 上半分44ff44(緑), 下半分cccc00(黄)で塗り分け
           spectrium() {
             src=$1
-            out=$2
+            prefix=$2
+            part=$3
+            out="resourcepack/assets/kubejs/textures/item/${prefix}_${part}.png"
             convert "$src" -resize 16x16^ -gravity center -extent 16x16 -alpha extract msk.png
             convert -size 16x8 xc:'rgba(68,255,68,0.75)' upper.png
             convert -size 16x8 xc:'rgba(204,204,0,0.75)' lower.png
@@ -57,19 +71,26 @@ jobs:
             rm upper.png lower.png color.png msk.png tmp.png base.png
           }
 
+          # 出力ファイル名接頭語
+          declare -A PREFIXES=(
+            [demlight]="Demlight"
+            [provarm]="Provarm"
+            [spectrium]="Spectrium"
+          )
+
           # デムライト 753dcf
           for item in helmet chestplate leggings boots; do
-            recolor "nether_star_${item}.png" "117,61,207" "resourcepack/assets/kubejs/textures/item/${item}_demlight.png"
+            recolor "nether_star_${item}.png" "117,61,207" "${PREFIXES[demlight]}" "$item"
           done
 
           # プロヴァーム dddd00
           for item in helmet chestplate leggings boots; do
-            recolor "nether_star_${item}.png" "221,221,0" "resourcepack/assets/kubejs/textures/item/${item}_provurm.png"
+            recolor "nether_star_${item}.png" "221,221,0" "${PREFIXES[provarm]}" "$item"
           done
 
           # スペクトリウム 上半分44ff44, 下半分cccc00
           for item in helmet chestplate leggings boots; do
-            spectrium "nether_star_${item}.png" "resourcepack/assets/kubejs/textures/item/${item}_spectrium.png"
+            spectrium "nether_star_${item}.png" "${PREFIXES[spectrium]}" "$item"
           done
 
       - name: Commit converted images
@@ -77,5 +98,5 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add resourcepack/assets/kubejs/textures/item
-          git commit -m "Add converted armor textures (auto-generated)" || echo "No changes to commit"
+          git commit -m "Auto: regenerate all armor textures with new naming (Prefix_Part.png) and cleanup old files" || echo "No changes to commit"
           git push
