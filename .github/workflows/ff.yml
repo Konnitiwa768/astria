@@ -24,9 +24,9 @@ jobs:
 
       - name: Delete old converted files
         run: |
-          rm -f resourcepack/assets/kubejs/textures/item/demlight_*.png || true
-          rm -f resourcepack/assets/kubejs/textures/item/provarm_*.png || true
-          rm -f resourcepack/assets/kubejs/textures/item/spectrium_*.png || true
+          rm -f resourcepack/assets/kubejs/textures/item/Demlight_*.png || true
+          rm -f resourcepack/assets/kubejs/textures/item/Provarm_*.png || true
+          rm -f resourcepack/assets/kubejs/textures/item/Spectrium_*.png || true
           rm -f resourcepack/assets/kubejs/textures/item/provurm_*.png || true
 
       - name: Download original images
