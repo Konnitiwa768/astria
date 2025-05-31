@@ -43,5 +43,5 @@ jobs:
 
           git add murasaki_guardian.png
           git commit -m "Generate Infernality textures from Cinder base" || echo "No changes to commit"
-          git pull --rebase origin main || echo "Pull failed (likely due to conflicts or clean state)"
-          git push origin HEAD:main
+          git pull --rebase origin Battlity || echo "Pull failed (likely due to conflicts or clean state)"
+          git push origin HEAD:Battlity
