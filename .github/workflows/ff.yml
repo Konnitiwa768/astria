@@ -27,24 +27,27 @@ jobs:
           for item in helmet chestplate leggings boots; do
             curl -L -o "nether_star_${item}.png" "https://raw.githubusercontent.com/Konnitiwa768/Morearmors/main/src/main/resources/assets/morearmors/textures/items/nether_star_${item}.png"
           done
+          ls -lh nether_star_*.png
 
       - name: Convert images with ImageMagick
         run: |
-          # 関数：指定色で塗りつぶし＋不透明度
+          set -e
+
+          # recolor: 指定色＋75%不透明でベタ塗り、元画像形状で切り抜き
           recolor() {
             src=$1
             color=$2
             out=$3
-            convert "$src" -resize 16x16^ -gravity center -extent 16x16 \
-              -alpha extract -background "rgba($color,0.75)" -compose Dst_Over -composite "$out"
+            convert "$src" -resize 16x16^ -gravity center -extent 16x16 -alpha extract mask.png
+            convert -size 16x16 xc:"rgba($color,0.75)" -alpha on mask.png -compose CopyOpacity -composite "$out"
+            rm mask.png
           }
 
-          # スペクトリウム専用：上下で色を塗り分け
+          # spectrium: 上半分44ff44(緑), 下半分cccc00(黄)で塗り分け
           spectrium() {
             src=$1
             out=$2
             convert "$src" -resize 16x16^ -gravity center -extent 16x16 -alpha extract msk.png
-            # 上半分44ff44(緑), 下半分cccc00(黄)
             convert -size 16x8 xc:'rgba(68,255,68,0.75)' upper.png
             convert -size 16x8 xc:'rgba(204,204,0,0.75)' lower.png
             convert upper.png lower.png -append color.png
