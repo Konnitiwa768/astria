@@ -19,22 +19,20 @@ jobs:
       - name: Install ImageMagick
         run: sudo apt-get update && sudo apt-get install -y imagemagick
 
-      # 1. /kubejs/textures/item -type f -iname '[A-Z]*.png' -delete || true
-
-      # 2. オリジナル画像DL
+      # オリジナル画像DL
       - name: Download original images
         run: |
           for item in helmet chestplate leggings boots; do
             curl -L -o "nether_star_${item}.png" "https://raw.githubusercontent.com/Konnitiwa768/Morearmors/main/src/main/resources/assets/morearmors/textures/items/nether_star_${item}.png"
           done
 
-      # 3. 元色くり抜き（clip）、色変換（convert）両方生成
+      # 元色くり抜き（clip）と色変換（convert）両方生成
       - name: Convert all images (original+color, lowercase, alpha keep)
         run: |
           set -e
           mkdir -p resourcepack/assets/kubejs/textures/item
 
-          # そのまま色変更なしでくり抜き（clip）
+          # clip: 元色でくり抜き
           for item in helmet chestplate leggings boots; do
             convert "nether_star_${item}.png" -resize 16x16^ -gravity center -extent 16x16 \
               -alpha on "resourcepack/assets/kubejs/textures/item/nether_star_${item}.png"
@@ -80,11 +78,12 @@ jobs:
             spectrium "nether_star_${item}.png" "${PREFIXES[spectrium]}" "$item"
           done
 
-      # 4. 自動コミット＆プッシュ
-      - name: Commit all images
+      # 自動コミット＆push前にpull --rebase
+      - name: Commit and push all images safely
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add resourcepack/assets/kubejs/textures/item
-          git commit -m "auto: clip & convert armor textures (lowercase, capitalized removed, provarm=dd0000)" || echo "No changes to commit"
+          git commit -m "auto: clip & convert armor textures (lowercase, provarm=dd0000)" || echo "No changes to commit"
+          git pull --rebase origin Battlity
           git push origin HEAD:Battlity
