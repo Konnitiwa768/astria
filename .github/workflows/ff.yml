@@ -77,4 +77,5 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add resourcepack/assets/kubejs/textures/item
           git commit -m "fix: regenerate armor textures (clip, lowercase, provarm=dd0000, delete capitalized)" || echo "No changes to commit"
-          git push
+          git pull --rebase origin Battlity
+          git push origin HEAD:Battlity
