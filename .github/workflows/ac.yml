@@ -26,8 +26,8 @@ jobs:
 
       - name: Generate Leafeau Textures
         run: |
-          convert crystal_armor_1.png -fill "#dddd00" -colorize 75% resourcepack/assets/kubejs/textures/model/armor/provarm_armor_2.png
-          convert crystal_armor_2.png -fill "#dddd00" -colorize 75% resourcepack/assets/kubejs/textures/model/armor/provarm_armor_1.png
+          convert crystal_armor_1.png -fill "#ff0000" -colorize 75% resourcepack/assets/kubejs/textures/model/armor/provarm_armor_2.png
+          convert crystal_armor_2.png -fill "#ff0000" -colorize 75% resourcepack/assets/kubejs/textures/model/armor/provarm_armor_1.png
 
       - name: Commit and Push Changes
         env:
