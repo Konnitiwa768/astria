@@ -1,4 +1,4 @@
-name: Nether Star Armor Texture Convert
+name: Nether Star Armor Texture Clip & Convert
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  convert_textures:
+  armor_texture_process:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,7 +19,8 @@ jobs:
       - name: Install ImageMagick
         run: sudo apt-get update && sudo apt-get install -y imagemagick
 
-      # kubejs/textures/item -type f -iname '[A-Z]*.png' -delete || true
+      # 先頭大文字PNGを全削除
+      # - name: //assets/kubejs/textures/item -type f -iname '[A-Z]*.png' -delete || true
 
       - name: Download original images
         run: |
@@ -27,7 +28,17 @@ jobs:
             curl -L -o "nether_star_${item}.png" "https://raw.githubusercontent.com/Konnitiwa768/Morearmors/main/src/main/resources/assets/morearmors/textures/items/nether_star_${item}.png"
           done
 
-      - name: Convert images with ImageMagick (clipping, lowercase, correct colors)
+      # 1. そのまま色変更なしでくり抜き（clip）
+      - name: Clip images (original color, no recolor)
+        run: |
+          mkdir -p resourcepack/assets/kubejs/textures/item
+          for item in helmet chestplate leggings boots; do
+            convert "nether_star_${item}.png" -resize 16x16^ -gravity center -extent 16x16 \
+              -alpha on "resourcepack/assets/kubejs/textures/item/nether_star_${item}.png"
+          done
+
+      # 2. 色変換＋透明維持（convert）
+      - name: Convert images with ImageMagick (clipping + color)
         run: |
           set -e
 
@@ -39,7 +50,7 @@ jobs:
             part=$4
             out="resourcepack/assets/kubejs/textures/item/${prefix}_${part}.png"
             convert "$src" -resize 16x16^ -gravity center -extent 16x16 \
-              -alpha on -channel RGB -fill "$color" -colorize 75% "$out"
+              -alpha on -channel RGB -fill "$color" -colorize 60% "$out"
           }
 
           # spectrium: 上半分緑・下半分黄で透明部分維持
@@ -71,11 +82,10 @@ jobs:
             spectrium "nether_star_${item}.png" "${PREFIXES[spectrium]}" "$item"
           done
 
-      - name: Commit converted images
+      - name: Commit all images
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add resourcepack/assets/kubejs/textures/item
-          git commit -m "fix: regenerate armor textures (clip, lowercase, provarm=dd0000, delete capitalized)" || echo "No changes to commit"
-          git pull --rebase origin Battlity
-          git push origin HEAD:Battlity
+          git commit -m "auto: clip original & color armor textures (lowercase, capitalized removed)" || echo "No changes to commit"
+          git push
