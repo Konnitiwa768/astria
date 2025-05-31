@@ -43,15 +43,16 @@ jobs:
           set -e
           mkdir -p resourcepack/assets/kubejs/textures/item
 
-          # recolor: 透明部分維持して色だけ置換（クリッピング）
+          # recolor: 色相シフトで色変更
           recolor() {
             src=$1
-            color=$2
+            hue_shift=$2
             prefix=$3
             part=$4
             out="resourcepack/assets/kubejs/textures/item/${prefix}_${part}.png"
+            # hue_shiftは0〜360（ImageMagickでは100が基準色、200が180度シフト）
             convert "$src" -resize 16x16^ -gravity center -extent 16x16 \
-              -alpha on -channel RGB -fill "$color" -colorize 50% "$out"
+              -alpha on -modulate 100,100,"$hue_shift" "$out"
           }
 
           # spectrium: 上半分緑・下半分黄で透明部分維持
@@ -79,7 +80,6 @@ jobs:
             rm mask.png
           }
 
-          # prefixはすべて小文字
           declare -A PREFIXES=(
             [demlight]="demlight"
             [provarm]="provarm"
@@ -87,10 +87,11 @@ jobs:
           )
 
           for item in helmet chestplate leggings boots; do
-            # recolor
-            recolor "nether_star_${item}.png" "#753dcf" "${PREFIXES[demlight]}" "$item"
-            recolor "nether_star_${item}.png" "#dd0000" "${PREFIXES[provarm]}" "$item"
-            # spectrium
+            # demライト（水色→紫、約+60度）
+            recolor "nether_star_${item}.png" 160 "${PREFIXES[demlight]}" "$item"
+            # provarm（水色→赤、約+140度）
+            recolor "nether_star_${item}.png" 240 "${PREFIXES[provarm]}" "$item"
+            # spectriumは独自処理
             spectrium "nether_star_${item}.png" "${PREFIXES[spectrium]}" "$item"
 
             # 各リカラー・スペクトリウム画像もclip（不透明部分だけくり抜き）
@@ -107,6 +108,6 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add resourcepack/assets/kubejs/textures/item
-          git commit -m "auto: clip & convert armor textures (lowercase, provarm=dd0000)" || echo "No changes to commit"
+          git commit -m "auto: clip & convert armor textures (hue-shift recolor)" || echo "No changes to commit"
           git pull --rebase origin Battlity
           git push origin HEAD:Battlity
