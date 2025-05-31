@@ -1,0 +1,72 @@
+name: Nether Star Armor Texture Convert
+
+on:
+  workflow_dispatch:
+
+jobs:
+  convert_textures:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install ImageMagick
+        run: sudo apt-get update && sudo apt-get install -y imagemagick
+
+      - name: Prepare directories
+        run: mkdir -p resourcepack/assets/kubejs/textures/item
+
+      - name: Download original images
+        run: |
+          for item in helmet chestplate leggings boots; do
+            curl -L -o "nether_star_${item}.png" "https://raw.githubusercontent.com/Konnitiwa768/Morearmors/main/src/main/resources/assets/morearmors/textures/items/nether_star_${item}.png"
+          done
+
+      - name: Convert images with ImageMagick
+        run: |
+          # 関数：指定色で塗りつぶし＋不透明度
+          recolor() {
+            src=$1
+            color=$2
+            out=$3
+            convert "$src" -resize 16x16^ -gravity center -extent 16x16 \
+              -alpha extract -background "rgba($color,0.75)" -compose Dst_Over -composite "$out"
+          }
+
+          # スペクトリウム専用：上下で色を塗り分け
+          spectrium() {
+            src=$1
+            out=$2
+            convert "$src" -resize 16x16^ -gravity center -extent 16x16 -alpha extract msk.png
+            # 上半分44ff44(緑), 下半分cccc00(黄)
+            convert -size 16x8 xc:'rgba(68,255,68,0.75)' upper.png
+            convert -size 16x8 xc:'rgba(204,204,0,0.75)' lower.png
+            convert upper.png lower.png -append color.png
+            convert color.png msk.png -alpha Off -compose CopyOpacity -composite tmp.png
+            convert "$src" -resize 16x16^ -gravity center -extent 16x16 -alpha set -channel a -evaluate set 0 +channel base.png
+            convert base.png tmp.png -composite "$out"
+            rm upper.png lower.png color.png msk.png tmp.png base.png
+          }
+
+          # デムライト 753dcf
+          for item in helmet chestplate leggings boots; do
+            recolor "nether_star_${item}.png" "117,61,207" "resourcepack/assets/kubejs/textures/item/${item}_demlight.png"
+          done
+
+          # プロヴァーム dddd00
+          for item in helmet chestplate leggings boots; do
+            recolor "nether_star_${item}.png" "221,221,0" "resourcepack/assets/kubejs/textures/item/${item}_provurm.png"
+          done
+
+          # スペクトリウム 上半分44ff44, 下半分cccc00
+          for item in helmet chestplate leggings boots; do
+            spectrium "nether_star_${item}.png" "resourcepack/assets/kubejs/textures/item/${item}_spectrium.png"
+          done
+
+      - name: Commit converted images
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add resourcepack/assets/kubejs/textures/item
+          git commit -m "Add converted armor textures (auto-generated)" || echo "No changes to commit"
+          git push
