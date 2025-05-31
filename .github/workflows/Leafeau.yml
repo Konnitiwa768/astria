@@ -18,18 +18,17 @@ jobs:
 
       - name: Download Zephyr Texture
         run: |
-          curl -O https://gitlab.com/Lycanite/LycanitesMobs/-/raw/2.3.3.3/src/main/resources/assets/lycanitesmobs/textures/entity/cinder.png
+          curl -O https://gitlab.com/Lycanite/LycanitesMobs/-/raw/2.3.3.3/src/main/resources/assets/lycanitesmobs/textures/entity/spectre.png
 
       - name: Generate Leafeau Textures
         run: |
           # 通常種
-          convert cinder.png -fill "#666666" -colorize 60% infernality.png
+          convert spectre.png -fill "#cc00cc" -colorize 60% murasaki_guardian.png
           
           # 亜種1（青）
-          convert cinder.png -fill "#000066" -colorize 60% infernality_azure.png
+          
           
           # 亜種2（緑）
-          convert cinder.png -fill "#006600" -colorize 60% infernality_verdant.png
 
       - name: Commit and Push Changes
         env:
@@ -42,7 +41,7 @@ jobs:
           git config --global user.email "actions@github.com"
           git remote set-url origin https://x-access-token:${{ secrets.SECRET_TOKEN }}@github.com/${{ github.repository }}
 
-          git add infernality.png infernality_azure.png infernality_verdant.png
+          git add murasaki_guardian.png
           git commit -m "Generate Infernality textures from Cinder base" || echo "No changes to commit"
           git pull --rebase origin main || echo "Pull failed (likely due to conflicts or clean state)"
           git push origin HEAD:main
