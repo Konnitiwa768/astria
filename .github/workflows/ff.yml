@@ -56,8 +56,8 @@ jobs:
             part=$3
             out="resourcepack/assets/kubejs/textures/item/${prefix}_${part}.png"
             convert "$src" -resize 16x16^ -gravity center -extent 16x16 -alpha extract mask.png
-            convert -size 16x8 xc:'#44ff44' upper.png
-            convert -size 16x8 xc:'#cccc00' lower.png
+            convert -size 16x8 xc:'#44ff44' -colorize 50% upper.png
+            convert -size 16x8 xc:'#cccc00' -colorize 50% lower.png
             convert upper.png lower.png -append color.png
             convert color.png mask.png -compose CopyOpacity -composite colorclip.png
             convert "$src" -resize 16x16^ -gravity center -extent 16x16 \
