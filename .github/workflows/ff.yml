@@ -19,10 +19,7 @@ jobs:
       - name: Install ImageMagick
         run: sudo apt-get update && sudo apt-get install -y imagemagick
 
-      # 先頭大文字のPNGファイルを全削除
-      - name: Delete capitalized PNGs
-        run: |
-          find resourcepack/assets/kubejs/textures/item -type f -iname '[A-Z]*.png' -delete || true
+      # kubejs/textures/item -type f -iname '[A-Z]*.png' -delete || true
 
       - name: Download original images
         run: |
