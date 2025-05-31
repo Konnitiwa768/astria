@@ -2,6 +2,7 @@
 https://minecraft.novaskin.me/resourcepacks#default/assets/minecraft/textures/models/armor
 https://web.blockbench.net
 https://chatgpt.com
+kubejs-curios必要
 https://wrtn.jp
 spartan weaponry addon toolkitが必要
 Lycanite's Mobs は GPLv3 ライセンス Lycanite's Mobs (by Lycanite) is included unmodified under the GPLv3 license. Original project: https://www.curseforge.com/minecraft/mc-mods/lycanites-mobs
