@@ -113,7 +113,7 @@ EntityEvents.death(event => {
         if (Math.random() < 0.3) drops.add(Item.of('kubejs:purple_thunder_crystal'));
         if (Math.random() < 0.4) drops.add(Item.of('minecraft:netherite_ingot', 2));
         if (Math.random() < 0.5) drops.add(Item.of('kubejs:demlight_ingot', 4));
-        if (Math.random() < 0.6) drops.add(Item.of('kubejs:cutoric_smithing_upgrade', 5));
+        if (Math.random() < 0.6) drops.add(Item.of('kubejs:cutonetic_smithing_upgrade', 5));
         if (Math.random() < 0.7) drops.add(Item.of('kubejs:lightning_stinger'));
         if (Math.random() < 0.8) drops.add(Item.of('minecraft:emerald', 7));
         if (Math.random() < 0.8) drops.add(Item.of('kubejs:ancient_scroll'));
