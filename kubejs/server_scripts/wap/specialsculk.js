@@ -47,7 +47,11 @@ ItemEvents.rightClicked(event => {
     let newState = !current
     setMode(newState)
 
-    player.const MODE_TAG = 'warden_and_parasites_mode'
+    player.tell(`§bWarden & Parasites モードを${newState ? 'ON' : 'OFF'}に切り替えました。`)
+  }
+})
+
+const MODE_TAG = 'warden_and_parasites_mode'
 
 // コマンドでモード切替
 ServerEvents.commandRegistry(event => {
@@ -81,7 +85,7 @@ ServerEvents.commandRegistry(event => {
   )
 })
 
-// モブスポーン制御
+// ========== 5. モブスポーン制御 ==========
 EntityEvents.checkSpawn(event => {
   const type = event.entity.type
   const blockedEntities = [
@@ -89,11 +93,19 @@ EntityEvents.checkSpawn(event => {
     'kubejs:sulcon_lv1',
     'kubejs:scurpter',
     'kubejs:draizer',
-    'kubejs:scane'
+    'kubejs:scane',
+    // ここから追加分
+    'kubejs:dark_bomber',
+    'kubejs:sulcon_lv2',
+    'kubejs:scultoxic',
+    'kubejs:kyrphos',
+    'kubejs:nuxuol',
+    'kubejs:sentury'
   ]
 
-  if (blockedEntities.includes(type)) {
-    const mode = event.level.persistentData.get(MODE_TAG)
-    if (!mode) event.cancel()
+  // モードOFFの場合はスポーンキャンセル
+  const mode = event.level.persistentData.get(MODE_TAG)
+  if (blockedEntities.includes(type) && !mode) {
+    event.cancel()
   }
 })
