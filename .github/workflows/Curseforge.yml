@@ -1,0 +1,30 @@
+name: Upload to CurseForge
+
+on:
+  workflow_dispatch:
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact from another workflow
+        run: |
+          mkdir artifact
+          curl -L -o artifact/built.jar \
+            -H "Accept: application/octet-stream" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://nightly.link/Konnitiwa768/Moreweapons/actions/runs/15403945338/artifacts/3245302374"
+          unzip artifact/built.jar -d artifact
+
+      - name: Upload to CurseForge
+        run: |
+          curl -X POST https://minecraft.curseforge.com/api/v1/mods/${{ secrets.PROJECT_ID }}/files \
+          -H "x-api-key: ${{ secrets.CURSEFORGE_API_KEY }}" \
+          -F "metadata={
+              \"gameVersions\": [\"${{ secrets.GAME_VERSION }}\"],
+              \"releaseType\": \"release\",
+              \"displayName\": \"Automated Upload\",
+              \"relations\": {}
+            };type=application/json" \
+          -F "file=@artifact/built.jar;type=application/java-archive"
