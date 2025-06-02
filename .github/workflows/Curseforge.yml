@@ -1,9 +1,6 @@
 name: Upload Moreweapons artifact to CurseForge
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
@@ -11,15 +8,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download artifact zip from Moreweapons
+      - name: Get artifact download URL
+        id: get_url
         run: |
-          echo "Downloading artifact from Moreweapons..."
+          echo "Getting artifact archive URL..."
+          url=$(curl -s -H "Authorization: token ${{ secrets.GH_PAT }}" \
+              https://api.github.com/repos/Konnitiwa768/Moreweapons/actions/artifacts/3245302374/zip \
+              -D - | grep -i Location | awk '{print $2}' | tr -d '\r')
+          echo "artifact_url=$url" >> $GITHUB_OUTPUT
 
-          curl -L \
-            -H "Authorization: token ${{ secrets.GH_PAT }}" \
-            -H "Accept: application/vnd.github+json" \
-            -o artifact.zip \
-            https://api.github.com/repos/Konnitiwa768/Moreweapons/actions/artifacts/3245302374/zip
+      - name: Download artifact zip
+        run: |
+          curl -L "${{ steps.get_url.outputs.artifact_url }}" -o artifact.zip
 
       - name: Unzip artifact
         run: |
@@ -29,9 +29,8 @@ jobs:
 
       - name: Upload to CurseForge
         run: |
-          echo "Uploading Built.jar to CurseForge..."
           curl -X POST "https://minecraft.curseforge.com/api/v1/mods/${{ secrets.PROJECT_ID }}/files" \
-            -H "x-api-key: ${{ secrets.CF_API_KEY }}" \
+            -H "x-api-key: ${{ secrets.CURSEFORGE_API_KEY }}" \
             -F "metadata={
               \"gameVersions\": [\"${{ secrets.GAME_VERSION }}\"],
               \"releaseType\": \"release\",
