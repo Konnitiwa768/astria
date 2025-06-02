@@ -4,21 +4,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  upload:
+  download_and_upload:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download artifact zip
-        run: |
-          mkdir artifact
-          curl -L -o artifact/artifact.zip \
-            -H "Accept: application/octet-stream" \
-            "https://github.com/Konnitiwa768/Moreweapons/actions/runs/15403945338/artifacts/3245302374/zip"
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Unzip artifact
-        run: |
-          unzip artifact/artifact.zip -d artifact
-          ls artifact
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Built
+          path: artifact
+
+      - name: Display artifact contents
+        run: ls -R artifact
 
       - name: Upload to CurseForge
         run: |
