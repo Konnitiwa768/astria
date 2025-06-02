@@ -8,14 +8,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download artifact from another workflow
+      - name: Create artifact directory
+        run: mkdir -p artifact
+
+      - name: Download Built.jar from artifact
         run: |
-          mkdir artifact
-          curl -L -o artifact/built.jar \
+          curl -L -o artifact/Built.jar \
             -H "Accept: application/octet-stream" \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            "https://nightly.link/Konnitiwa768/Moreweapons/actions/runs/15403945338/artifacts/3245302374"
-          unzip artifact/built.jar -d artifact
+            "https://github.com/Konnitiwa768/Moreweapons/actions/runs/15403945338/artifacts/3245302374"
 
       - name: Upload to CurseForge
         run: |
@@ -24,7 +25,7 @@ jobs:
           -F "metadata={
               \"gameVersions\": [\"${{ secrets.GAME_VERSION }}\"],
               \"releaseType\": \"release\",
-              \"displayName\": \"Automated Upload\",
+              \"displayName\": \"Built.jar automated upload\",
               \"relations\": {}
             };type=application/json" \
-          -F "file=@artifact/built.jar;type=application/java-archive"
+          -F "file=@built.jar;type=application/java-archive"
