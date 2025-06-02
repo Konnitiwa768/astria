@@ -28,4 +28,4 @@ jobs:
               \"displayName\": \"Built.jar automated upload\",
               \"relations\": {}
             };type=application/json" \
-          -F "file=@built.jar;type=application/java-archive"
+          -F "file=@artifacts/built.jar;type=application/java-archive"
