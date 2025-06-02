@@ -1,32 +1,40 @@
-name: Upload to CurseForge
+name: Upload Moreweapons artifact to CurseForge
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
-  download_and_upload:
+  upload_artifact:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Download artifact zip from Moreweapons
+        run: |
+          echo "Downloading artifact from Moreweapons..."
 
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: Built
-          path: artifact
+          curl -L \
+            -H "Authorization: token ${{ secrets.GH_PAT }}" \
+            -H "Accept: application/vnd.github+json" \
+            -o artifact.zip \
+            https://api.github.com/repos/Konnitiwa768/Moreweapons/actions/artifacts/3245302374/zip
 
-      - name: Display artifact contents
-        run: ls -R artifact
+      - name: Unzip artifact
+        run: |
+          mkdir artifact
+          unzip artifact.zip -d artifact
+          ls -R artifact
 
       - name: Upload to CurseForge
         run: |
+          echo "Uploading Built.jar to CurseForge..."
           curl -X POST "https://minecraft.curseforge.com/api/v1/mods/${{ secrets.PROJECT_ID }}/files" \
-            -H "x-api-key: ${{ secrets.CURSEFORGE_API_KEY }}" \
+            -H "x-api-key: ${{ secrets.CF_API_KEY }}" \
             -F "metadata={
               \"gameVersions\": [\"${{ secrets.GAME_VERSION }}\"],
               \"releaseType\": \"release\",
-              \"displayName\": \"Built.jar automated upload\"
+              \"displayName\": \"Built.jar from Moreweapons\"
             };type=application/json" \
             -F "file=@artifact/Built.jar;type=application/java-archive"
