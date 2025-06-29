@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - m1.19.2
+      - Quins
 
 jobs:
   push_mods:
