@@ -41,6 +41,7 @@ jobs:
             [Apotheosis]=313970
             [DivineRpg]=363543
             [Core]=311054
+            [Tinco]=74072
           )
 
           for MOD_NAME in "${!MODS[@]}"; do
